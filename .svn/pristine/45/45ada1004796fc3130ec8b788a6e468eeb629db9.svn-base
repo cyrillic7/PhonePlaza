@@ -1,0 +1,55 @@
+KIND_ID						=160						
+GAME_NAME					="神兽转盘"					
+
+GAME_STATUS_PLAY =100	--游戏状态								
+GAME_STATUS_END = 101	--结束状态
+
+
+SUB_GF_GAME_OPTION = 1					--游戏配置
+SUB_GF_USER_READY = 2					--用户准备
+SUB_GF_LOOKON_CONFIG = 3				--旁观配置
+
+--区域索引
+ID_XUAN_WU			=1	--玄武
+ID_QING_LONG		=2	--青龙
+ID_ZHU_QUE			=3	--朱雀
+ID_BAI_HU			=4	--白虎
+ID_XIAO_WU_GUI		=5	--小乌龟
+ID_XIAO_BAI_LONG	=6	--小白龙
+ID_XIAO_FENG_HUANG	=7	--小凤凰
+ID_XIAO_LAO_HU		=8	--小老虎
+
+AREA_COUNT		= 8 --区域个数
+ANIMAL_KIND		=8 
+ANIMAL_COUNT  	=16
+RATE_TWO_PAIR	=12
+SERVER_LEN		=32
+
+--服务器命令结
+SUB_S_GAME_FREE				=99		--游戏空闲
+SUB_S_GAME_START			=100	--游戏开始
+SUB_S_PLACE_JETTON			=101	--用户下注
+SUB_S_GAME_END				=102	--游戏结束
+SUB_S_APPLY_BANKER			=103	--申请庄家
+SUB_S_CHANGE_BANKER			=104	--切换庄家
+SUB_S_CHANGE_USER_SCORE		=105	--更新积分
+SUB_S_SEND_RECORD			=106	--游戏记录
+SUB_S_PLACE_JETTON_FAIL		=107	--下注失败
+SUB_S_CANCEL_BANKER			=108	--取消申请
+SUB_S_WAIT_BANKER			=111	--等待上庄
+SUB_S_ROBOT_BANKER          =112    --机器人
+SUB_S_QIANG_ZHUAN			=113	--抢庄
+
+--客户端命令结构
+SUB_C_PLACE_JETTON	=11		--用户下注
+SUB_C_APPLY_BANKER	=12		--申请庄家
+SUB_C_CANCEL_BANKER	=13		--取消申请
+SUB_C_QIANG_ZHUAN	=14		--抢庄
+
+SUB_C_ADMIN_COMMDN	=16		--系统控制
+
+GAME_STATE_BET = 3 --开始下注
+GAME_STATE_BETOVER = 1--下注结束
+GAME_STATE_BETWILLOVER = 2--下注即将结束
+GAME_STATE_CHNAGEBANKER = 5 --轮换庄家
+GAME_STATE_FREE = 6    --空闲状态

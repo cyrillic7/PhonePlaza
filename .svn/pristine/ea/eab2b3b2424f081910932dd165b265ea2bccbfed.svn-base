@@ -1,0 +1,20 @@
+
+
+--排行榜界面
+require("transferbattle.App.Test.DefineConfig")
+
+local RankScene = class("RankScene", function()
+	return cc.Scene:create()
+end)
+
+function RankScene:ctor()
+	self:init()
+end
+
+function RankScene:init()
+	local layer = require("transferbattle.App.Test.RankLayer").new()
+	self:addChild(layer)
+end
+
+
+return RankScene

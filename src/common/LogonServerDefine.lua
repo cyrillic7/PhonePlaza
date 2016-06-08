@@ -1,0 +1,152 @@
+MDM_GP_LOGON=1					--广场登录
+
+--登录模式
+SUB_GP_LOGON_GAMEID	=1			--I D 登录
+SUB_GP_LOGON_ACCOUNTS=2			--帐号登录
+SUB_GP_REGISTER_ACCOUNTS=3		--注册帐号
+SUB_GP_LOGON_LOGOUT_GAMEID=4    --退出大厅
+SUB_GP_LOBBY_IP=5				--比赛服务器ip
+SUB_GP_THEME=6					--大厅主题
+
+--登录结果
+SUB_GP_LOGON_SUCCESS=100		--登录成功
+SUB_GP_LOGON_FAILURE=101		--登录失败
+SUB_GP_LOGON_FINISH=102			--登录完成
+SUB_GP_VALIDATE_MBCARD=103		--登录失败
+
+--升级提示
+SUB_GP_UPDATE_NOTIFY=200		--升级提示
+
+--携带信息 CMD_GP_LogonSuccess
+DTP_GP_GROUP_INFO=1 			--社团信息
+DTP_GP_MEMBER_INFO=2			--会员信息
+DTP_GP_UNDER_WRITE=3			--个性签名
+DTP_GP_STATION_URL=4			--主页信息
+DTP_GP_SET_INSURE_PWD=5   		--设置保险柜密码
+DTP_GP_GET_MONEY=6				--用户累计充值数
+DTP_GP_GET_NOTIFY_COUNT=7		--完成任务 未读信息
+DTP_GP_GET_LABA_COUNT=8			--喇叭数量
+
+
+MDM_GP_SERVER_LIST=2			--列表信息
+
+--获取命令
+SUB_GP_GET_LIST=1				--获取列表
+SUB_GP_GET_SERVER=2				--获取房间
+SUB_GP_GET_ONLINE=3				--获取在线
+SUB_GP_GET_COLLECTION=4			--获取收藏
+
+--列表信息
+SUB_GP_LIST_TYPE=100			--类型列表
+SUB_GP_LIST_KIND=101			--种类列表
+SUB_GP_LIST_NODE=102			--节点列表
+SUB_GP_LIST_PAGE=103			--定制列表
+SUB_GP_LIST_SERVER=104			--房间列表
+SUB_GP_VIDEO_OPTION=105			--视频配置
+SUB_GP_WEB = 106				--web配置
+
+--完成信息
+SUB_GP_LIST_FINISH=200			--发送完成
+SUB_GP_SERVER_FINISH=201		--房间完成
+
+--在线信息
+SUB_GR_KINE_ONLINE=300			--类型在线
+SUB_GR_SERVER_ONLINE=301		--房间在线
+
+--服务命令
+MDM_GP_USER_SERVICE=3			--用户服务
+
+--账号服务
+SUB_GP_MODIFY_MACHINE = 100				--修改机器
+SUB_GP_MODIFY_LOGON_PASS = 101			--修改密码
+SUB_GP_MODIFY_INSURE_PASS = 102			--修改密码
+SUB_GP_MODIFY_UNDER_WRITE = 103			--修改签名
+SUB_GP_MODIFY_PASSPORT_ID = 104			--身份证绑定
+SUB_GP_VERIFY_INSURE_PASS = 105			--验证保险柜密码
+SUB_GP_GET_CAPTCHA = 106				--获取验证码
+SUB_GP_SEND_CAPTCHA = 107				--发送验证码
+SUB_GP_GIFT = 108						--礼品包
+SUB_GP_PROPERTY = 109					--道具
+SUB_GP_BUYGIFT = 110					--购买礼品包,道具
+SUB_GP_KNAPSACK = 111					--背包
+SUB_GP_KNAPSACKLOG = 112				--背包错误提示
+SUB_GP_USE_KNAPSACKLOG = 113			--使用背包
+SUB_GP_AUCTION = 114					--查询可以拍卖的物品
+SUB_GP_SELL_AUCTION = 115				--出售拍卖品
+SUB_GP_BUY_AUCTION = 116				--购买拍卖品
+SUB_GP_CANCEL_AUCTION = 117				--撤消拍卖品
+SUB_GP_AUCTION_RECORD = 118				--查询拍卖信息
+SUB_GP_MYAUCTION_RECORD = 119			--查询自己拍卖的物品
+SUB_GP_AUCTION_HISTORY_RECORD = 120		--查询自己的拍卖纪录
+SUB_GP_QUERY_AUCTION = 121				--查询拍卖记录
+SUB_GP_AUCTIONLOG = 122					--获取拍卖品(拍卖品没有的试试返回该宏)
+SUB_GP_VIP_POWER = 124					--vip特权
+SUB_GP_VIP_AWARD = 125					--vip奖励
+
+SUB_GP_GET_SIGNIN_TASK = 126			--获取签到列表
+SUB_GP_SIGNIN = 127						--签到
+
+SUB_GP_SET_INSUREPASS_GET_CAPTCHA = 128			--获取验证码
+SUB_GP_SET_INSUREPASS_SEND_CAPTCHA = 129		--发送验证码
+
+SUB_GP_QUERY_MYAUCTION = 130			--查询我的拍卖记录
+SUB_GP_RECHARGE_ORDER = 131				--充值订单
+SUB_GP_VIPSHOP = 132					--vip馆
+SUB_GP_GIFT_CHANGE = 133				--礼物码兑换
+SUB_GP_FRIEND_GIFT_CHANGE = 134			--邀请礼物码兑换
+
+SUB_GP_CHECK_ACCOUNT = 140				--核对账号
+SUB_GP_GET_CAPTCHA_BY_ID = 141			--根据ID获取验证码
+SUB_GP_SET_LOGIN_PASS = 142				--设置新登录密码
+SUB_GP_UN_MOOR_MACHINE = 143			--解梆主机
+
+
+--修改头像
+SUB_GP_USER_FACE_INFO = 200				--头像信息
+SUB_GP_SYSTEM_FACE_INFO = 201			--系统头像
+SUB_GP_CUSTOM_FACE_INFO = 202			--自定头像
+
+--个人资料
+SUB_GP_USER_INDIVIDUAL = 301			--个人资料
+SUB_GP_QUERY_INDIVIDUAL = 302			--查询信息
+SUB_GP_MODIFY_INDIVIDUAL = 303			--修改资料
+
+--银行服务
+SUB_GP_USER_SAVE_SCORE = 400			--存款操作
+SUB_GP_USER_TAKE_SCORE = 401			--取款操作
+SUB_GP_USER_TRANSFER_SCORE = 402		--转账操作
+SUB_GP_USER_INSURE_INFO = 403			--银行资料
+SUB_GP_QUERY_INSURE_INFO = 404			--查询银行
+SUB_GP_USER_INSURE_SUCCESS = 405		--银行成功
+SUB_GP_USER_INSURE_FAILURE = 406		--银行失败
+SUB_GP_QUERY_USER_INFO_REQUEST = 407	--查询用户
+SUB_GP_QUERY_USER_INFO_RESULT = 408		--用户信息
+SUB_GP_GET_ALMS = 409					--领取救济金     
+SUB_GP_INSURE_RECORD = 410				--银行记录  
+SUB_GP_EXCHANGE_INGOT = 411				--元宝兑换 
+SUB_GP_EXCHANGE_CHARM = 412				--魅力兑换
+SUB_GP_TREASURE = 413					--财富详细 
+SUB_GP_CONVERSION_AUCTIONSCORE = 414	--拍卖所得兑换 
+SUB_GP_FEEDBACK = 416					--用户反馈
+
+
+--操作结果
+SUB_GP_OPERATE_SUCCESS = 900			--操作成功
+SUB_GP_OPERATE_FAILURE = 901			--操作失败
+
+
+MDM_MB_LOGON = 100						--广场登录
+SUB_MB_QUICK_LOGIN = 4					--快速登录(游客身份)
+SUB_MB_ACCESSTOKEN = 5					--第三方登录
+
+--携带信息 CMD_GP_UserIndividual
+DTP_GP_UI_NICKNAME = 1					--用户昵称
+DTP_GP_UI_USER_NOTE = 2					--用户说明
+DTP_GP_UI_UNDER_WRITE = 3				--个性签名
+DTP_GP_UI_QQ = 4						--Q Q 号码
+DTP_GP_UI_EMAIL = 5						--电子邮件
+DTP_GP_UI_SEAT_PHONE = 6				--固定电话
+DTP_GP_UI_MOBILE_PHONE = 7				--移动电话
+DTP_GP_UI_COMPELLATION = 8				--真实名字
+DTP_GP_UI_DWELLING_PLACE = 9			--联系地址
+DTP_GP_UI_USER_FACE = 10				--头像

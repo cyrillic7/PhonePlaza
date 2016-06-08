@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<GameProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>F:\PhonePlaza\CocosStudioRes</ProjectDir>
+  <Version>1.6.0.0</Version>
+  <Resources>F:\PhonePlaza\CocosStudioRes</Resources>
+  <Name>GamePlazaNew</Name>
+  <JsonFileName>GamePlazaNew.json</JsonFileName>
+  <JsonList />
+  <CanvasSize>
+    <Width>480</Width>
+    <Height>320</Height>
+  </CanvasSize>
+  <filePath>F:\PhonePlaza\CocosStudioRes\GamePlazaNew.xml.ccsproj</filePath>
+  <ProjectType>GameProject</ProjectType>
+  <ResRelativePath />
+  <ResProjFolder>F:\PhonePlaza\CocosStudioRes\CocosStudio\ccsprojs</ResProjFolder>
+  <AssetsDir>F:\PhonePlaza\CocosStudioRes\CocosStudio\assets</AssetsDir>
+  <LanaguageType>cpp</LanaguageType>
+</GameProject>

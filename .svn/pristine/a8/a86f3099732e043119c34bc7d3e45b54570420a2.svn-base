@@ -1,0 +1,372 @@
+
+
+--排行榜层
+local playerItemView = require("transferbattle.App.View.TransferBattlePlayerItemView")
+
+local RankLayer = class("RankLayer", function()
+	return cc.LayerColor:create(cc.c4b(0, 0, 0, 0))
+end)
+
+--菜单类型
+local MenuType = {
+	MENU_STAR_TYPE = 1, 		--星星
+	MENU_EAT_TYPE = 2,			--吞噬
+	MENU_RICH_TYPE = 3,			--财富
+	MENU_CITY_TYPE = 4,			--城市
+	MENU_TOTAL_TYPE = 5,		--历史
+}
+
+--排行类型
+local RankType = {
+	RANK_FIRST_TYPE = 1,			--第一个排行
+	RANK_SECOND_TYPE = 2,			--第二个排行
+	RANK_THIRD_TYPE = 3,			--第三个排行
+}
+
+--相关文本
+local Config = {
+	[MenuType.MENU_STAR_TYPE] = {
+		[RankType.RANK_FIRST_TYPE] = {valueImage = "star.png", rankText = "日排行", titleText = "新增星星"},
+		[RankType.RANK_SECOND_TYPE] = {valueImage = "star.png", rankText = "周排行", titleText = "新增星星"},
+		[RankType.RANK_THIRD_TYPE] = {valueImage = "star.png", rankText = "总排行", titleText = "总星星"},
+	},
+
+	[MenuType.MENU_EAT_TYPE] = {
+		[RankType.RANK_FIRST_TYPE] = {valueImage = "tunshi.png", rankText = "日排行", titleText = "新增吞噬"},
+		[RankType.RANK_SECOND_TYPE] = {valueImage = "tunshi.png", rankText = "周排行", titleText = "新增吞噬"},
+		[RankType.RANK_THIRD_TYPE] = {valueImage = "tunshi.png", rankText = "总排行", titleText = "总吞噬"},
+	},
+
+	[MenuType.MENU_RICH_TYPE] = {
+		[RankType.RANK_FIRST_TYPE] = {valueImage = "zuanshi.png", rankText = "日排行", titleText = "新增钻石"},
+		[RankType.RANK_SECOND_TYPE] = {valueImage = "zuanshi.png", rankText = "周排行", titleText = "新增钻石"},
+		[RankType.RANK_THIRD_TYPE] = {valueImage = "zuanshi.png", rankText = "总排行", titleText = "总钻石"},
+	},
+
+	[MenuType.MENU_CITY_TYPE] = {
+		[RankType.RANK_FIRST_TYPE] = {valueImage = "star.png", rankText = "城市英雄", titleText = "总星星"},
+		[RankType.RANK_SECOND_TYPE] = {valueImage = "star.png", rankText = "星星榜", titleText = "总星星"},
+		[RankType.RANK_THIRD_TYPE] = {valueImage = "tunshi.png", rankText = "吞噬榜", titleText = "总吞噬"},
+	},
+
+	[MenuType.MENU_TOTAL_TYPE] = {
+		[RankType.RANK_FIRST_TYPE] = {valueImage = "mvp.png", rankText = "M  V  P", titleText = "总MVP数量"},
+		[RankType.RANK_SECOND_TYPE] = {valueImage = "dunwei.png", rankText = "质量榜", titleText = "单局最高质量"},
+		[RankType.RANK_THIRD_TYPE] = {valueImage = "tunshi.png", rankText = "吞噬榜", titleText = "单局最高吞噬"},
+	},
+}
+
+function RankLayer:ctor()
+	self.menuType = -1 			--菜单索引
+	self.rankType = -1			--排行索引
+
+	self.schedulerID = nil
+	self.isCanAddNode = false
+	self.curCount = 0 			--当前个数
+	self.maxCount = 0 			--总个数
+
+	self:startScheduler()
+	--self:enableNodeEvents()
+	self:init()
+	self:setInfo()
+end
+
+function RankLayer:onEnter()
+	print("----------------------------RankLayer: on Enter")
+	self:startScheduler()
+end
+
+function RankLayer:onExit()
+	print("----------------------------RankLayer: on Exit")
+	self:cancelScheduler()
+end
+
+function RankLayer:init()
+	local rootNode = ccs.GUIReader:getInstance():widgetFromJsonFile("transferbattle/rank/ball_6_paihangbang.ExportJson")
+	rootNode:setTouchEnabled(false)
+	self:addChild(rootNode)
+
+	--菜单
+	self.starBtn = rootNode:getChildByTag(223)
+	self.starBtn:addTouchEventListener(handler(self, self.starEvent))
+
+	self.eatBtn = rootNode:getChildByTag(224)
+	self.eatBtn:addTouchEventListener(handler(self, self.eatEvent))
+
+	self.richBtn = rootNode:getChildByTag(214)
+	self.richBtn:addTouchEventListener(handler(self, self.richEvent))
+
+	self.cityBtn = rootNode:getChildByTag(567)
+	self.cityBtn:addTouchEventListener(handler(self, self.cityEvent))
+
+	self.totalBtn = rootNode:getChildByTag(215)
+	self.totalBtn:addTouchEventListener(handler(self, self.totalEvent))
+
+	--返回
+	self.backBtn = rootNode:getChildByTag(226)
+	self.backBtn:addTouchEventListener(handler(self, self.backEvent))
+
+	--排行
+	self.rankFirstLabel = rootNode:getChildByTag(250)
+	self.rankFirstBtn = rootNode:getChildByTag(230)
+	self.rankFirstBtn:addTouchEventListener(handler(self, self.rankFirstEvent))
+
+	self.rankSecondLabel = rootNode:getChildByTag(252)
+	self.rankSecondBtn = rootNode:getChildByTag(228)
+	self.rankSecondBtn:addTouchEventListener(handler(self, self.rankSecondEvent))
+
+	self.rankThirdLabel = rootNode:getChildByTag(242)
+	self.rankThirdBtn = rootNode:getChildByTag(231)
+	self.rankThirdBtn:addTouchEventListener(handler(self, self.rankThirdEvent))
+
+	--标题
+	self.titleLabel = rootNode:getChildByTag(246)
+
+	--列表视图
+	self.listView = rootNode:getChildByTag(319)
+
+	--创建自己的RankNode
+	--[[local x, y = rootNode:getChildByTag(574):getPosition()
+	self.myRankNode = require("app.game.Node.MyRankNode"):create()
+	self.myRankNode:setPosition(x, y)
+	self:addChild(self.myRankNode, 4)]]
+end
+
+function RankLayer:setInfo()
+	self.menuBtnList = {}
+	self.menuBtnList[MenuType.MENU_STAR_TYPE] = self.starBtn
+	self.menuBtnList[MenuType.MENU_EAT_TYPE] = self.eatBtn
+	self.menuBtnList[MenuType.MENU_RICH_TYPE] = self.richBtn
+	self.menuBtnList[MenuType.MENU_CITY_TYPE] = self.cityBtn
+	self.menuBtnList[MenuType.MENU_TOTAL_TYPE] = self.totalBtn
+
+	self.rankBtnList = {}
+	self.rankBtnList[RankType.RANK_FIRST_TYPE] = self.rankFirstBtn
+	self.rankBtnList[RankType.RANK_SECOND_TYPE] = self.rankSecondBtn
+	self.rankBtnList[RankType.RANK_THIRD_TYPE] = self.rankThirdBtn
+
+	self:updateMenuType(MenuType.MENU_STAR_TYPE)
+end
+
+function RankLayer:starEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("星星")
+		self:updateMenuType(MenuType.MENU_STAR_TYPE)
+	end
+end
+
+function RankLayer:eatEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("吞噬")
+		self:updateMenuType(MenuType.MENU_EAT_TYPE)
+	end
+end
+
+function RankLayer:richEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("财富")
+		self:updateMenuType(MenuType.MENU_RICH_TYPE)
+	end
+end
+
+function RankLayer:cityEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("城市")
+		self:updateMenuType(MenuType.MENU_CITY_TYPE)
+	end
+end
+
+function RankLayer:totalEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("历史")
+		self:updateMenuType(MenuType.MENU_TOTAL_TYPE)
+	end
+end
+
+function RankLayer:backEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("返回")
+		gDirector:popScene()
+	end
+end
+
+function RankLayer:rankFirstEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("第一排行")
+		self:updateRankType(RankType.RANK_FIRST_TYPE)
+	end
+end
+
+function RankLayer:rankSecondEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("第二排行")
+		self:updateRankType(RankType.RANK_SECOND_TYPE)
+	end
+end
+
+function RankLayer:rankThirdEvent(sender, touchEventType)
+	if touchEventType == ccui.TouchEventType.ended then
+		print("第三排行")
+		self:updateRankType(RankType.RANK_THIRD_TYPE)
+	end
+end
+
+--更新菜单类型
+function RankLayer:updateMenuType(menuType)
+	self.isCanAddNode = false
+
+	if self.menuType ~= -1 then
+		self.menuBtnList[self.menuType]:setTouchEnabled(true)
+		self.menuBtnList[self.menuType]:loadTextureNormal("tip_top_z_1.png", ccui.TextureResType.plistType)
+	end
+
+	self.menuType = menuType
+	self.menuBtnList[self.menuType]:setTouchEnabled(false)
+	self.menuBtnList[self.menuType]:loadTextureNormal("tip_top_d.png", ccui.TextureResType.plistType)
+
+	--更新排行榜
+	self:updateRankText()
+	self:updateRankType(RankType.RANK_FIRST_TYPE)
+end
+
+--更新排行榜文字
+function RankLayer:updateRankText()
+	self.rankFirstLabel:setString(Config[self.menuType][RankType.RANK_FIRST_TYPE].rankText)
+	self.rankSecondLabel:setString(Config[self.menuType][RankType.RANK_SECOND_TYPE].rankText)
+	self.rankThirdLabel:setString(Config[self.menuType][RankType.RANK_THIRD_TYPE].rankText)
+end
+
+--更新排行榜类型
+function RankLayer:updateRankType(rankType)
+	self.isCanAddNode = false
+
+	--更新排行榜数据
+	self:updateRankData()
+
+	if self.rankType ~= -1 then
+		self.rankBtnList[self.rankType]:setTouchEnabled(true)
+		self.rankBtnList[self.rankType]:loadTextureNormal("tip_left_z_1.png", ccui.TextureResType.plistType)
+	end
+
+	self.rankType = rankType
+	self.rankBtnList[self.rankType]:setTouchEnabled(false)
+	self.rankBtnList[self.rankType]:loadTextureNormal("tip_left_d.png", ccui.TextureResType.plistType)
+
+	self.titleLabel:setString(Config[self.menuType][self.rankType].titleText)
+
+	
+end
+
+--更新排行榜数据
+function RankLayer:updateRankData()
+	--[[local curTime = os.time()
+	local preTime = UserData.rankData[self.menuType][self.rankType].time
+	local step = curTime - preTime
+
+	--间隔时间超过策略时间，则做网络访问
+	if step >= DefineConfig.DATA_REQUEST_TIME_STEP then
+		--网络访问
+		self:updateUIList()
+
+	else
+		--直接刷新数据
+		self:updateUIList()
+	end]]
+	self:updateUIList()
+end
+
+--获取对应数据的长度
+function RankLayer:getDataCount()
+	return 50
+end
+
+function RankLayer:startScheduler()
+	if not self.schedulerID then
+		self.schedulerID = cc.Director:getInstance():getScheduler():scheduleScriptFunc(handler(self, self.update), 0, false)
+	end
+end
+
+function RankLayer:cancelScheduler()
+	if self.schedulerID then
+		cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.schedulerID)
+		self.schedulerID = nil
+	end
+end
+
+function RankLayer:update(dt)
+	if self.isCanAddNode then
+		if not self.hasRemove then
+			self.hasRemove = true
+			self.listView:removeAllItems()
+		end
+		self.curCount = self.curCount + 1
+		if self.curCount <= self.maxCount then
+			--增加一个结点
+			local node = require("transferbattle.App.Test..RankNode").new()
+			node:setRankLabel(self.curCount)
+			node:setSexImage(self.curCount % 2)
+			node:setSCityLabel(27)
+			node:setNameLabel("角色名字")
+			-- node:setFCityLabel(34)
+			node:setValueImage(Config[self.menuType][self.rankType].valueImage)
+			node:setValueLabel(123456)
+
+			self.listView:pushBackCustomItem(node)
+			
+			--[[local playerData = {}
+			playerData.dwUserID =11
+	        playerData.szNickName = "adafasdfasf"
+	        playerData.initScore  = 555666 --进入桌子的初始金币数
+	        playerData.lScore  = 1424277731
+	        playerData.wChairID =1
+			local itemView = playerItemView.new(playerData)
+        	self.listView:pushBackCustomItem(itemView)]]
+		else
+			--self.listView:jumpToTop()
+
+			self.isCanAddNode = false
+		end
+	end
+end
+
+function RankLayer:updateUIList()
+	--self:updateMyRankUI()
+	self:updateRankListUI()
+end
+
+function RankLayer:updateMyRankUI()
+	--更新自己结点的数据
+	self.myRankNode:setRankLabel(100)
+	self.myRankNode:setHeadImage(0)
+	self.myRankNode:setSexImage(1)
+	self.myRankNode:setSCityLabel(2)
+	self.myRankNode:setNameLabel("玩家自己的名字")
+	self.myRankNode:setValueImage(Config[self.menuType][self.rankType].valueImage)
+	self.myRankNode:setValueLabel(999999)
+end
+
+function RankLayer:updateRankListUI()
+	
+	self.maxCount = self:getDataCount()
+	self.curCount = 0
+
+	--local a = socket.gettime()
+	print(string.format("%d:%d",tonumber(os.date("%M")),tonumber(os.date("%S"))))
+	--self.listView:removeAllItems()
+	print(string.format("%d:%d",tonumber(os.date("%M")),tonumber(os.date("%S"))))
+	--local b = socket.gettime()
+	--print("---------------------------------------step = " .. (b - a))
+	self.isCanAddNode = true
+	self.hasRemove = false
+	
+	--[[local action1 = cc.DelayTime:create(0.05)
+	local action2 = cc.CallFunc:create(function()
+		self.isCanAddNode = true
+	end)
+	local action3 = cc.Sequence:create(action1, action2)
+	self:runAction(action3)]]
+
+end
+
+
+return RankLayer

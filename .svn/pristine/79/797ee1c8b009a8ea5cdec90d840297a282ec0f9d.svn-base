@@ -1,0 +1,467 @@
+
+local Player=class("Player")
+
+local userPos = {
+    cc.p(display.cx -130 ,display.cy + 180),--1号位置 对家
+    cc.p(display.cx + 80,display.cy + 180),--2号位置 对家
+    cc.p(display.cx + 150,display.cy),--3号位置 对家
+    cc.p(100,200),--4号位置 对家
+    cc.p(display.cx - 400,display.cy),--5号位置 对家
+    cc.p(display.cx - 320,display.cy + 180),--6号位置 对家
+}
+
+--构造
+function Player:ctor(Json,Kernel)
+    self.Node=Json
+    self.m_GameKernel=Kernel
+    self.ClientKernel=Kernel:getClientKernel()
+    self.myHero = {}
+    self.sixHeros = {}
+    self.myHero.cbUserStatus = US_PLAYING
+    self:RegistUserManager()
+    self.soucesPos = {}
+    self.gameUserItems = {}
+    self.playerStatus = {}
+    for i=1,OxtbNewDefine.GAME_PLAYER do
+        self["player".. i] = oxui.getNodeByName(self.Node,"player" .. i)
+        self["head".. i] = oxui.getNodeByName(self["player".. i],"head")
+        self["gold".. i] = oxui.getNodeByName(self["player".. i],"gold")
+        self["name".. i] = oxui.getNodeByName(self["player".. i],"name")
+        self["bk".. i] = oxui.getNodeByName(self["player".. i],"bk")
+        self["read".. i] = oxui.getNodeByName(self["player".. i],"read")
+        self["banker".. i]= oxui.getNodeByName(self["player".. i],"banker")
+        self["bankerbg".. i]= oxui.getNodeByName(self["player".. i],"bankerbg")
+        self["souce".. i]= oxui.getNodeByName(self["player".. i],"souce")
+        self["imgAddSouce" .. i] = oxui.getNodeByName(self["player".. i],"imgAddSouce")
+        self["lblAddSouce" .. i] = oxui.getNodeByName(self["player".. i],"lblAddSouce")
+        
+        self["chatView" .. i] = oxui.getNodeByName(self.Node,"chatView" .. i)
+        self["chattxt" .. i] = oxui.getNodeByName(self["chatView" .. i],"chattxt")
+    end
+
+    for i=1, OxtbNewDefine.GAME_PLAYER do
+        self.soucesPos[i] = self["souce".. i]:getPosition()
+    end
+
+    for var=1, OxtbNewDefine.GAME_PLAYER do
+        self["player" .. var]:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (e)
+            if e.name == "began" then
+                local bHideUserInfo = (0 ~= bit._and(self.ClientKernel.serverAttribute.dwServerRule, SR_ALLOW_AVERT_CHEAT_MODE))
+                if not bHideUserInfo then
+                    self:showUserInfo(e.pSender:getTag())
+                end 
+            end
+        end)
+    end
+    --开始按钮
+    self.btnStart=cc.uiloader:seekNodeByName(self.Node,"btnStart")
+    self.btnChangeDesk=oxui.getNodeByName(self.Node,"btnChangeDesk")
+    self.btnTrust=oxui.getNodeByName(self.Node,"btnTrust") 
+end
+
+function Player:showUserInfo(tag)
+    
+    if not self.userInfoWidget then
+        local userInfoWidget = require("plazacenter.widgets.UserInfoWidget")
+        self.userInfoWidget = userInfoWidget.new(self.Node, userInfoWidget.TABLE_TYPE) 
+    end
+    local pos = userPos[tag]
+    for key, user in pairs(self.sixHeros) do
+        local ViewID = self.m_GameKernel:SwitchViewChairID(user.wChairID)  
+        if ViewID  == tag then
+            self.userInfoWidget:updateUserInfo(self.sixHeros[user.wChairID],pos.x,pos.y)
+            self.userInfoWidget:showUserInfo(true)
+    	end
+    end
+    
+
+end
+--释放注册的消息
+function Player:OnFreeInterface()
+    self.ClientKernel:removeListenersByTable(self.eventHandles)
+end
+
+--事件管理
+function Player:RegistUserManager()
+    --用户类事件
+    local GameUserManager = require("common.GameUserManagerController").Message
+    local eventListeners = eventListeners or {}
+    eventListeners[GameUserManager.GAME_UserItemAcitve] = handler(self, self.UserEnter)
+    eventListeners[GameUserManager.GAME_UserItemDelete] = handler(self, self.UserLeave)
+    eventListeners[GameUserManager.GAME_UserItemScoreUpdate] = handler(self, self.UserScoreUpdate)
+    eventListeners[GameUserManager.GAME_UserItemStatusUpdate] = handler(self, self.UserStatusUpdate)
+    eventListeners["RESET_PLAYER_INFO"] = handler(self, self.UserEnterClear)
+    eventListeners["GF_USER_CHAT"] = handler(self, self.ChatCallBack)
+    eventListeners["GF_USER_EXPRESSION"] = handler(self, self.ChatCallBack)
+    
+    self.eventHandles = self.ClientKernel:addEventListenersByTable( eventListeners )
+end
+function Player:ChatCallBack(evt)
+    dump(evt)
+    local charMsg = evt.para
+    
+    for i=0, 5 do
+        local user = self.sixHeros[i]
+        if user and charMsg.dwSendUserID == user.dwUserID then
+            local ViewID = self.m_GameKernel:SwitchViewChairID(user.wChairID) 
+            local chat = self["chatView" .. ViewID]  
+            if chat:isVisible() then
+                chat:stopAllActions()
+                chat:hide()
+            end
+            if self["ChatImg" .. ViewID] then
+                self["ChatImg" .. ViewID]:removeFromParent()
+            end  
+            self:playerAnimChatView(chat,ViewID,charMsg)
+        end
+    end 
+ end
+ local ChatImageDir = "Common/chat/"
+function Player:playerAnimChatView(tag,v,charMsg)
+    
+    local chat = tag
+    local ViewID = v 
+    dump(charMsg)
+    if not charMsg.szChatString then 
+    	local posx = chat:getPositionX()
+        local posy = chat:getPositionY()
+        dump(posx)
+        dump(posy)
+        self["ChatImg" .. ViewID] = ccui.ImageView:create()
+        self["ChatImg" .. ViewID]:loadTexture(ChatImageDir .. "chat_" .. charMsg.wItemIndex ..".png") 
+        self["ChatImg" .. ViewID]:addTo(self.Node)
+        self["ChatImg" .. ViewID]:setPosition(posx,posy)
+    else
+        chat:show()
+        self["chattxt" .. ViewID]:setString(charMsg.szChatString)
+    end
+ 
+    local d = cc.DelayTime:create(6)
+    local f = cc.CallFunc:create(function() 
+        chat:hide()
+        self["chattxt" .. ViewID]:setString("")
+        if  self["ChatImg" .. ViewID] then
+            self["ChatImg" .. ViewID]:removeFromParent()
+            self["ChatImg" .. ViewID] = nil
+        end
+    end)
+    chat:runAction(cc.Sequence:create(d,f))
+ end
+--------------------[[用户管理接口]]--------------------
+--用户进来
+function Player:UserEnter(evt)
+    local ViewID =self.m_GameKernel:SwitchViewChairID(evt.para.wChairID)
+
+    print("用户进来 我的椅子号------》" ,evt.para.wChairID)
+    print("用户进来 我的视图号------》", ViewID)
+    --dump(evt.para)
+    self.gameUserItems[tostring(ViewID)] = evt.para
+    self.sixHeros[evt.para.wChairID] = evt.para
+    --自己
+    
+    
+    if ViewID==OxtbNewDefine.MYSELF_VIEW_ID then
+        --头像框-自己
+        self.myHero = evt.para
+        self.myHero.cbUserStatus = evt.para.cbUserStatus
+        print("evt.para.cbUserStatus =" .. evt.para.cbUserStatus)
+        print("self.myHero=" .. self.myHero.wChairID)
+        self.player4:show()
+        --头像-自己
+        self.head4:setSpriteFrame("pic/face/"..evt.para.wFaceID..".png")
+        self.head4:show()
+        self.head4:setScale(0.45)
+
+        --昵称-自己
+        self.name4:setString(G_TruncationString(evt.para.szNickName,15))
+        self.name4:show() 
+        --分数-自己
+        self.gold4:setString(evt.para.lScore)
+        self.gold4:show()
+        
+--        if US_SIT == evt.para.cbUserStatus then
+--            self.btnStart:show()
+--        end
+        --对家
+    else
+        print("ViewID" .. ViewID)
+        --头像框-对家
+        self["player" .. ViewID]:show()
+        --头像-对家
+        self["head" .. ViewID]:setSpriteFrame("pic/face/"..evt.para.wFaceID..".png")
+        self["head" .. ViewID]:show()
+        self["head" .. ViewID]:setScale(0.45)
+        
+        --昵称-对家
+        if ViewID == 1 then
+            self["name" .. ViewID]:setString(G_TruncationString(evt.para.szNickName,12))
+        else
+            self["name" .. ViewID]:setString(G_TruncationString(evt.para.szNickName,6))
+        end
+        --分数-对家
+        self["gold" .. ViewID]:setString( oxui.string(evt.para.lScore))
+        
+        if evt.para.cbUserStatus == US_READY then
+            self["read" .. ViewID]:show()
+        else
+            self["read" .. ViewID]:hide()
+        end
+    end
+end
+--用户离开
+function Player:UserLeave(evt)
+    local ViewID = self.m_GameKernel:SwitchViewChairID(evt.para.wChairID)
+    print("用户离开..ViewID= " ..ViewID)
+    print("用户离开..wChairID= " .. evt.para.wChairID)
+    self.gameUserItems[tostring(ViewID)] = nil
+
+    self.sixHeros[evt.para.wChairID] = nil
+    --自己
+    if ViewID==OxtbNewDefine.MYSELF_VIEW_ID then
+        self:LeaveType()
+    else
+        self:resetGamePlayerView(ViewID)
+    end 
+end
+
+function Player:LeaveType()
+    if self.ClientKernel.exitGameApp then
+        self.ClientKernel:exitGameApp()
+    else
+        self.m_GameKernel:LeaveGame()
+        cc.Director:getInstance():popToRootScene() 
+    end
+end
+--更新用户分数
+function Player:UserScoreUpdate(evt) 
+    local userItem = evt.para.clientUserItem
+
+    local ViewID=self.m_GameKernel:SwitchViewChairID(userItem.wChairID)
+    print("更新用户分数ViewID" .. ViewID .. "print(更新用户分数" .. userItem.lScore .. "fen")
+    if ViewID == OxtbNewDefine.MYSELF_VIEW_ID then
+        self["gold" .. ViewID]:setString(userItem.lScore)
+    else
+        self["gold" .. ViewID]:setString( oxui.string(userItem.lScore))
+    end
+end
+--更新用户状态
+function Player:UserStatusUpdate(evt)
+    --print("更新用户状态")
+
+    local userItem = evt.para.clientUserItem
+    local ViewID=self.m_GameKernel:SwitchViewChairID(userItem.wChairID)
+
+    print("更新用户状态.. ViewID"  .. ViewID)
+    print("更新用户状态.. userItem" ..userItem.cbUserStatus )
+
+    self.sixHeros[userItem.wChairID].cbUserStatus = userItem.cbUserStatus
+    if userItem.cbUserStatus==US_READY then
+        self["read" .. ViewID]:show()
+    else
+        self["read" .. ViewID]:hide()
+    end
+    
+    
+    if ViewID == OxtbNewDefine.MYSELF_VIEW_ID then
+        self.myHero.cbUserStatus = userItem.cbUserStatus
+        print("更新用户状态..playeruserItem" .. userItem.cbUserStatus )
+        if US_SIT == userItem.cbUserStatus then
+            self.btnChangeDesk:show()
+            self.btnTrust:hide()
+        else
+            self.btnChangeDesk:hide() 
+            self.btnTrust:show()
+        end
+    end
+end
+
+--清空玩家信息
+function Player:UserEnterClear(evt)
+    dump("UserEnterClear---------------------------ccy")
+    self.gameUserItems={}
+    self.sixHeros={}
+    self:resetGameView()
+    self.Node:getParent():FreeAllData()
+    self.Node:getParent():stopAllActions()
+end
+
+--更新用户属性
+function Player:UserAttribUpdate(evt)
+    print("更新用户属性")
+    local ViewID =self.m_GameKernel:SwitchViewChairID(evt.para.wChairID)
+    self.gameUserItems[tostring(ViewID)] = evt.para
+    dump(self.gameUserItems)
+end
+
+--设置玩家状态
+function Player:setUserPlayingStatus(wChairID , statu)
+    local ViewID=self.m_GameKernel:SwitchViewChairID(wChairID)
+    self.gameUserItems[tostring(ViewID)].cbUserStatus = statu
+    self:refreshGameView()
+end
+
+--更新试图
+function Player:refreshGameView()
+    print("更新试图")
+
+end
+
+-- function Player:setBander(vid)
+--     self["banker" .. vid]:show()
+--     self["bankerbg" .. vid]:show()
+--     self["bankerbg" .. vid]:setScale(2)
+--     local s = cc.ScaleTo:create(0.1,1)
+--     self["bankerbg" .. vid]:runAction(s) 
+-- end
+
+function Player:resetGameView()
+    print("重新设置")
+    for i=1, OxtbNewDefine.GAME_PLAYER do
+        --self["player" .. i] = oxui.getNodeByName(self.Node,"player" .. i)
+        self:resetGamePlayerView(i)
+    end
+end
+
+function Player:resetGamePlayerView(vid)
+    print("resetGamePlayerView = vid = " .. vid)
+    self["player" .. vid]:hide()
+    self["head" .. vid]:hide()
+    self["gold" .. vid]:setString(0)
+    self["name" .. vid]:setString("")
+    self["read" .. vid]:setVisible(false)
+    self["banker" .. vid]:hide()
+    self["bankerbg" .. vid]:hide()
+    --self["imgAddSouce" .. vid]:hide() 
+end
+
+function Player:FreeAllPlayer()
+    for i=1, OxtbNewDefine.GAME_PLAYER do
+        self:resetGamePlayerView(i)
+    end
+end
+
+function Player:FreeAllAddSouce()
+    for i=1, OxtbNewDefine.GAME_PLAYER do
+        self["imgAddSouce" .. i]:hide() 
+    end
+    
+end
+
+function Player:FreeAllBanders()
+    for i=1, OxtbNewDefine.GAME_PLAYER do
+        self["banker" .. i]:hide()
+        self["bankerbg" .. i]:hide()
+    end
+end
+
+function Player:setSZName(wChairID,name)
+    --    local vid =self.m_GameKernel:SwitchViewChairID(wChairID)
+    --    if vid then
+    if self["name" .. wChairID] then
+        if wChairID == 4 then
+            self["name" .. wChairID]:setString(G_TruncationString(name,15))
+        elseif wChairID == 1 then
+            self["name" .. wChairID]:setString(G_TruncationString(name,12))
+        else
+            self["name" .. wChairID]:setString(G_TruncationString(name,6))
+        end
+    end
+
+    --    end
+    print("设置名字",wChairID)
+
+
+end
+
+function Player:setCellScore(wChairID,score)
+    if not wChairID then
+        return
+    end
+    
+    if wChairID == OxtbNewDefine.MYSELF_VIEW_ID then 
+        self["gold" .. wChairID]:setString(score)
+    else
+        self["gold" .. wChairID]:setString( oxui.string(score))
+    end
+end
+
+function Player:SetaddScouce(vid,num)
+    if vid and num then
+    	self["imgAddSouce".. vid]:show()
+        self["lblAddSouce".. vid]:setString(num)  
+    end
+    
+
+end
+
+function Player:ShowScore(wChairID,score,iszheng)
+    if not wChairID then
+        return
+    end
+    
+    self:moveSource(wChairID,score,iszheng) 
+end
+
+
+function Player:getMywChairID()
+    return self.myHero.wChairID
+end
+
+function Player:GetTableUserItem(vid)
+    if self["player" .. vid] and self["player" .. vid]:isVisible() then
+        return true
+    else
+        return false
+    end
+end
+
+function Player:getUserStatus()
+    return self.myHero.cbUserStatus
+end
+
+function Player:IsCurrentUser(wCurrentUser)
+    if not oxui.IsNotLookonMode()and  wCurrentUser == self.myHero.wChairID  then
+        return true
+    end
+    return false
+end
+
+local cardUpDis = 40
+function Player:moveSource(vid,score,iszheng)
+    self:setSouceTexture(vid,iszheng) 
+    self["TXT" .. vid]:setString(":" .. score)
+    if self["TXT".. vid] and self["TXT".. vid] then
+        self["TXT".. vid]:show()
+       -- self["TXT".. vid]:setString()
+        local mb = cc.MoveBy:create(1.5, cc.p(0, cardUpDis))
+        local fade = cc.FadeTo:create(1,0)
+        local del = cc.DelayTime:create(2.5)
+        local call = cc.CallFunc:create(function() 
+            self["TXT".. vid]:removeFromParent()
+        end )
+        self["TXT".. vid]:runAction(cc.Sequence:create(mb,fade,del,call))
+    end
+end
+
+function Player:setSouceTexture(vid,iszheng)
+    local str
+    if iszheng then
+        str = "u_game_numb_win"
+    else
+        str = "u_game_numb_lose"
+    end 
+    self["TXT" .. vid] = ccui.TextAtlas:create()
+    self["TXT" .. vid]:setProperty("0", "oxtbnew/Font/" .. str ..  ".png", 23, 31, "0")
+    self["TXT" .. vid]:addTo(self["player" .. vid],300)
+    local X = self["player" .. vid]:getPositionX()
+    local Y = self["player" .. vid]:getPositionY() 
+    local size = self["player" .. vid]:getContentSize()
+    self["TXT" .. vid]:setPositionX((size.width/2)) --)cc.p( , 0))  
+end
+
+function Player:getSixHero()
+--return clone(SixHeros)
+end
+
+return Player
+

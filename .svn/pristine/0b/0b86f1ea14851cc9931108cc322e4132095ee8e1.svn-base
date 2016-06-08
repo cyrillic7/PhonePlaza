@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<UIProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>G:\CocosStudioProjects\GamePlazaNew\CocosStudio\ccsprojs\FrameBaseScene</ProjectDir>
+  <Version>1.6.0.0</Version>
+  <Resources>G:\CocosStudioProjects\GamePlazaNew\CocosStudio\assets</Resources>
+  <Name>FrameBaseScene</Name>
+  <JsonFileName>FrameBaseScene.json</JsonFileName>
+  <JsonFolder>G:\CocosStudioProjects\GamePlazaNew\CocosStudio\ccsprojs\FrameBaseScene\Json</JsonFolder>
+  <JsonList>
+    <string>FrameBaseScene.json</string>
+  </JsonList>
+  <CanvasSize>
+    <Width>1136</Width>
+    <Height>640</Height>
+  </CanvasSize>
+  <filePath>G:\CocosStudioProjects\GamePlazaNew\CocosStudio\ccsprojs\FrameBaseScene\FrameBaseScene.xml.ui</filePath>
+  <ProjectType>UIProject</ProjectType>
+  <ResRelativePath>\\..\\..\\assets</ResRelativePath>
+  <imageFileList>
+    <string>UIHallFace.plist</string>
+    <string>UIHallSundry.plist</string>
+    <string>UIHallButton.plist</string>
+  </imageFileList>
+  <imagePngList>
+    <string>UIHallFace.png</string>
+    <string>UIHallSundry.png</string>
+    <string>UIHallButton.png</string>
+  </imagePngList>
+  <JsonSuffix>.json</JsonSuffix>
+  <CurrentUIJson>FrameBaseScene.json</CurrentUIJson>
+</UIProject>

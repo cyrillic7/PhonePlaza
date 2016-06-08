@@ -1,0 +1,74 @@
+
+--游戏数据的配置
+
+DefineConfig = 
+{
+	GAME_NET_HOST = "192.168.6.246",				--服务器地址
+	GAME_NET_PORT = 10301,							--服务器端口
+
+	GAME_ANIMATION_INTERVAL = 30, 					--游戏帧率为30帧
+
+	GAME_CAPTURE_TOUCH_DIRECT_FRAME = 15,			--采集触摸方向的帧率为15帧
+
+	BATTLE_FIELD_WIDTH = 20000,						--战场宽度
+	BATTLE_FIELD_HEIGHT = 20000,					--战场高度
+
+	BATTLE_PADDING_WIDTH = 2000,					--战场横向内边距
+	BATTLE_PADDING_HEIGHT = 2000,					--战场纵向内边距
+
+	MIN_BALL_WEIGHT = 100, 							--球的最小重量
+	MIN_BALL_DIVIDE_WEIGHT = 1000, 					--球的最小分裂质量
+	MIN_BALL_JET_WEIGHT = 1000, 					--球的最小喷射质量
+	MOVE_ACCELERATION = 600,						--球的移动加速度
+
+	NUTRIENT_IMAGE_NAME_LIST = {					--养分图片名列表
+		[1] = "zhandou_nutrition_blue.png",
+		[2] = "zhandou_nutrition_green.png",
+		[3] = "zhandou_nutrition_yellow.png",
+		[4] = "zhandou_nutrition_zi.png",
+	},
+
+	REVIVE_COUNT_DOWN_STEP = 5, 					--复活倒计时时长(单位:秒)
+
+	DATA_REQUEST_TIME_STEP = 3600, 					--数据请求时间间隔(单位：秒)，适用于个人信息界面和排行榜界面
+
+	--城市列表(fName：全称，sName：简称)
+	CITY_LIST = {
+		[1] = {fName = "北京市", sName = "北京",},
+		[2] = {fName = "浙江省", sName = "浙江",},
+		[3] = {fName = "天津市", sName = "天津",},
+		[4] = {fName = "安徽省", sName = "安徽",},
+		[5] = {fName = "上海市", sName = "上海",},
+		[6] = {fName = "福建省", sName = "福建",},
+		[7] = {fName = "重庆市", sName = "重庆",},
+		[8] = {fName = "江西省", sName = "江西",},
+		[9] = {fName = "山东省", sName = "山东",},
+		[10] = {fName = "河南省", sName = "河南",},
+		[11] = {fName = "湖北省", sName = "湖北",},
+		[12] = {fName = "湖南省", sName = "湖南",},
+		[13] = {fName = "广东省", sName = "广东",},
+		[14] = {fName = "海南省", sName = "海南",},
+		[15] = {fName = "山西省", sName = "山西",},
+		[16] = {fName = "青海省", sName = "青海",},
+		[17] = {fName = "江苏省", sName = "江苏",},
+		[18] = {fName = "辽宁省", sName = "辽宁",},
+		[19] = {fName = "吉林省", sName = "吉林",},
+		[20] = {fName = "台湾省", sName = "台湾",},
+		[21] = {fName = "河北省", sName = "河北",},
+		[22] = {fName = "贵州省", sName = "贵州",},
+		[23] = {fName = "四川省", sName = "四川",},
+		[24] = {fName = "云南省", sName = "云南",},
+		[25] = {fName = "陕西省", sName = "陕西",},
+		[26] = {fName = "甘肃省", sName = "甘肃",},
+		[27] = {fName = "黑龙江省", sName = "黑龙江",},
+		[28] = {fName = "香港特别行政区", sName = "香港",},
+		[29] = {fName = "澳门特别行政区", sName = "澳门",},
+		[30] = {fName = "广西壮族自治区", sName = "广西",},
+		[31] = {fName = "宁夏回族自治区", sName = "宁夏",},
+		[32] = {fName = "新疆维吾尔自治区", sName = "新疆",},
+		[33] = {fName = "内蒙古自治区", sName = "内蒙古",},
+		[34] = {fName = "西藏自治区", sName = "西藏",},
+	},
+}
+
+return DefineConfig

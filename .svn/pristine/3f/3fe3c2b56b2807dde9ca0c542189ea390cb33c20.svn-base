@@ -1,0 +1,498 @@
+local ClientKernel = class("ClientKernel")
+
+ClientKernel.Message = 
+{
+    GF_GAME_STATUS = "GF_GAME_STATUS",
+    GF_USER_CHAT = "GF_USER_CHAT",
+    GF_USER_EXPRESSION = "GF_USER_EXPRESSION",
+    GR_MATCHCLIENT_STATUS = "GR_MATCHCLIENT_STATUS",
+}
+
+function ClientKernel:ctor(gameClientManager,notificationCenter,bMatchGame)
+	self.gameClientManager = gameClientManager
+    self.kernelNotificationCenter = notificationCenter or require("common.NotificationCenter").new()
+	self.gameUserManager = require("common.GameUserManagerController").new(self.kernelNotificationCenter)
+    self.bMatchGame = bMatchGame
+
+    -- 服务状态
+    self.bService = false
+    self.bAllowLookon = false
+    self.cbGameStatus = GAME_STATUS_FREE
+    self.mySelfUserItem = nil
+    -- 用户属性
+    self.userAttribute = {
+        dwUserID=0,
+        wTableID=0,
+        wChairID=0,
+        dwUserRight=0,
+        dwMasterRight=0
+    }
+    -- 游戏属性
+    self.gameAttribute = {
+        wKindID=0,
+        wChairCount=0,
+        dwClientVersion=0,
+        szGameName=0
+    }
+    -- 房间属性
+    self.serverAttribute = {
+        wKindID=0,
+        wServerID=0,
+        wServerType=0,
+        dwServerRule=0,
+        szServerName=0,
+        wAVServerPort=0,
+        dwAVServerAddr=0
+    }
+    -- 比赛是否结束
+    self.cbMatchFinish = false
+	-- 注册事件
+	self:registerEvents()
+end
+
+function ClientKernel:cleanup()
+	self:unRegisterEvents()
+end
+
+function ClientKernel:SetMatchFinish()
+    self.cbMatchFinish = true
+end
+function ClientKernel:GetMatchFinish()
+    return self.cbMatchFinish
+end
+-- args (wKindID,wPlayerCount,dwClientVersion,pszGameName)
+function ClientKernel:SetGameAttribute(gameAttribute)
+    self.gameAttribute = {
+        wKindID=gameAttribute.wKindID or 0,
+        wChairCount=gameAttribute.wPlayerCount or 0,
+        dwClientVersion=gameAttribute.dwClientVersion or 0,
+        szGameName=gameAttribute.pszGameName or ""
+    }
+end
+
+function ClientKernel:exitGameApp(bSignNextMatch)
+    self:standUp()
+    if self.bMatchGame then
+        self:requestCommand(MDM_GR_MATCH,SUB_GR_LEAVE_MATCH)
+        self.gameClientManager:exitMatchServer(bSignNextMatch)
+    end
+    self.gameClientManager:exitGameApp()
+end
+
+function ClientKernel:ready(  )
+   self:requestCommand(MDM_GF_FRAME,SUB_GF_USER_READY)
+end
+
+function ClientKernel:standUp(  )
+    print("send standUp")
+    local CMD_GR_UserStandUp = {}
+    CMD_GR_UserStandUp.wChairID = self.userAttribute.wChairID
+    CMD_GR_UserStandUp.wTableID= self.userAttribute.wTableID
+    CMD_GR_UserStandUp.cbForceLeave = 1
+    self:requestCommand(MDM_GR_USER,SUB_GR_USER_STANDUP,CMD_GR_UserStandUp,"CMD_GR_UserStandUp")
+end
+
+function ClientKernel:quickChangeTable()
+    AppBaseInstanse.PLAZACENTER_APP.notificationCenter:dispatchEvent({
+            name = AppBaseInstanse.PLAZACENTER_APP.Message.Ctrl_QuickJoinBtnClicked,
+            para = {wTableID=INVALID_TABLE,wChairID=INVALID_CHAIR}
+        })
+end
+
+function ClientKernel:sendUserChatMsg(pszChatString,ShortMsgIndex,dwTargetUserID)
+    if not pszChatString then
+        return
+    end
+    print("send chat msg:",pszChatString)
+    local CMD_GF_C_UserChat = {
+        wChatLength=128,
+        dwChatColor=0,
+        dwTargetUserID=dwTargetUserID or 0,
+        bShortMsgIndex=ShortMsgIndex or 255,
+        szChatString=pszChatString
+    }
+    self:requestCommand(MDM_GF_FRAME,SUB_GF_USER_CHAT,CMD_GF_C_UserChat,"CMD_GF_C_UserChat")
+end
+
+function ClientKernel:SendUserExpression(wItemIndex,dwTargetUserID)
+    local CMD_GF_C_UserExpression = {
+        wItemIndex=wItemIndex or 0,
+        dwTargetUserID=dwTargetUserID or 0,
+    }
+
+    self:requestCommand(MDM_GF_FRAME,SUB_GF_USER_EXPRESSION,CMD_GF_C_UserExpression,"CMD_GF_C_UserExpression")
+end
+
+--查找用户
+function ClientKernel:SearchUserByUserID(dwUserID)
+    return self.gameUserManager:SearchUserByUserID(dwUserID)
+end
+--查找用户
+function ClientKernel:SearchUserByGameID(dwGameID)    
+    return self.gameUserManager:SearchUserByGameID(dwGameID)
+end
+--查找用户
+function ClientKernel:SearchUserByNickName(pszNickName)
+    return self.gameUserManager:SearchUserByNickName(pszNickName)
+end
+--查找用户
+function ClientKernel:SearchUserByChairID(wChairID)
+    return self.gameUserManager:SearchUserByChairID(wChairID)
+end
+function ClientKernel:registerEvents()
+    local eventListeners = eventListeners or {}
+    local gameClientManager = self.gameClientManager
+    local message = gameClientManager.Message
+    eventListeners[message.GameClientManager_ExitGame] = handler(self, self.receiveExitGameMessage)
+
+    eventListeners[message.GameClientManager_GameServerInfo] = handler(self, self.receiveGameServerInfoMessage)
+    eventListeners[message.GameClientManager_GameServerUserItem] = handler(self, self.receiveGameServerUserItemMessage)
+    eventListeners[message.GameClientManager_GameServerUserScore] = handler(self, self.receiveGameServerUserScoreMessage)
+    eventListeners[message.GameClientManager_GameServerUserStatus] = handler(self, self.receiveGameServerUserStatusMessage)
+    eventListeners[message.GameClientManager_SendProcessData] = handler(self, self.receiveProcessDataMessage)
+    -- 比赛相关
+    --eventListeners[message.GameClientManager_MatchServerStatus] = handler(self, self.receiveMatchServerStatusMessage)
+    eventListeners[message.GameClientManager_MathchServerInfo] = handler(self, self.receiveMathchServerInfoMessage)
+    eventListeners[message.GameClientManager_MatchServerUserItem] = handler(self, self.receiveMatchServerUserItemMessage)
+    eventListeners[message.GameClientManager_MatchServerUserItemLeave] = handler(self, self.receiveMatchServerUserItemLeaveMessage)
+    eventListeners[message.GameClientManager_MatchServerUserItemUpdate] = handler(self, self.receiveMatchServerUserItemUpdateMessage)
+    
+    self.kernelHandles = gameClientManager:addEventListenersByTable( eventListeners )
+
+    -- 网络消息
+    self.gameClientManager.scriptHandler:registerResponseHandler(MDM_GF_FRAME,SUB_GF_GAME_STATUS,handler(self, self.OnSocketSubGameStatusMsg))
+    self.gameClientManager.scriptHandler:registerResponseHandler(MDM_GF_FRAME,SUB_GF_USER_CHAT,handler(self, self.OnSocketSubUserChatMsg))
+    self.gameClientManager.scriptHandler:registerResponseHandler(MDM_GF_FRAME,SUB_GF_USER_EXPRESSION,handler(self, self.OnSocketSubUserExpressionMsg))
+    if not self.bMatchGame then
+        self.gameClientManager.scriptHandler:registerResponseHandler(MDM_GF_FRAME,SUB_GF_SYSTEM_MESSAGE,handler(self, self.OnSocketGameSubSystemMessage))
+    end
+end
+
+function ClientKernel:unRegisterEvents()
+	self.gameClientManager:removeListenersByTable(self.kernelHandles)
+
+    self.gameClientManager.scriptHandler:unregisterResponseHandler(MDM_GF_FRAME,SUB_GF_GAME_STATUS)
+    self.gameClientManager.scriptHandler:unregisterResponseHandler(MDM_GF_FRAME,SUB_GF_USER_CHAT)
+    self.gameClientManager.scriptHandler:unregisterResponseHandler(MDM_GF_FRAME,SUB_GF_USER_EXPRESSION)
+    if not self.bMatchGame then
+        self.gameClientManager.scriptHandler:unregisterResponseHandler(MDM_GF_FRAME,SUB_GF_SYSTEM_MESSAGE)
+    end
+end
+
+-- 发送请求到服务器
+function ClientKernel:requestCommand(mainID,subID,request,typeName)
+    self.gameClientManager:requestCommand(mainID,subID,request,typeName)
+end
+
+-- 解析结构
+function ClientKernel:ParseStruct(dataPtr,dataSize,structName)
+    return self.gameClientManager:ParseStruct(dataPtr,dataSize, structName)
+end
+
+-- 解析数组
+function ClientKernel:ParseStructGroup(unResolvedData,structName)
+    return self.gameClientManager:ParseStructGroup(unResolvedData,structName)
+end
+
+-- add ClientKernel event Listeners
+function ClientKernel:addEventListenersByTable(eventListeners)
+    return self.kernelNotificationCenter:addAllEventListenerByTable( eventListeners )
+end
+
+-- remove ClientKernel event Listeners
+function ClientKernel:removeListenersByTable(handles)
+    return self.kernelNotificationCenter:removeAllListenerByTable( handles )
+end
+
+-- add ClientKernel Socket ResponseHandlers
+function ClientKernel:addSocketResponseHandlersByTable(ResponseHandlers)
+    return self.gameClientManager:addSocketResponseHandlersByTable(ResponseHandlers)
+end
+
+-- remove ClientKernel Socket ResponseHandlers
+function ClientKernel:removeSocketResponseHandlersByTable(cmdIDTable)
+    return self.gameClientManager:removeSocketResponseHandlersByTable(cmdIDTable)
+end
+
+function ClientKernel:receiveExitGameMessage(event)
+    cc.Director:getInstance():popToRootScene()
+end
+
+function ClientKernel:receiveGameServerInfoMessage(event)
+    local serverInfo = event.para
+    if serverInfo then
+        -- 用户属性
+        self.userAttribute.dwUserID = serverInfo.dwUserID
+        self.userAttribute.wTableID = serverInfo.wTableID
+        self.userAttribute.wChairID = serverInfo.wChairID
+        -- 权限属性
+        self.userAttribute.dwUserRight = serverInfo.dwUserRight
+        self.userAttribute.dwMasterRight = serverInfo.dwMasterRight
+        -- 房间属性
+        self.serverAttribute.wKindID = serverInfo.wKindID
+        self.serverAttribute.wServerID = serverInfo.wServerID
+        self.serverAttribute.wServerType = serverInfo.wServerType
+        self.serverAttribute.dwServerRule = serverInfo.dwServerRule
+        self.serverAttribute.szServerName = serverInfo.szServerName
+    end
+end
+
+function ClientKernel:receiveGameServerUserItemMessage(event)
+    local userItem = event.para
+    local newUserItem = {}
+    -- 用户属性
+    newUserItem.wFaceID = userItem.wFaceID or 0
+    newUserItem.dwGameID = userItem.dwGameID or 0
+    newUserItem.dwUserID = userItem.dwUserID or 0
+    newUserItem.dwGroupID = userItem.dwGroupID or 0
+    newUserItem.dwCustomID = userItem.dwCustomID or 0
+    newUserItem.cbGender = userItem.cbGender or 0
+    newUserItem.cbMemberOrder = userItem.cbMemberOrder or 0
+    newUserItem.cbMasterOrder = userItem.cbMasterOrder or 0
+    -- 用户状态
+    newUserItem.wTableID = userItem.wTableID or INVALID_TABLE
+    newUserItem.wChairID = userItem.wChairID or INVALID_CHAIR
+    newUserItem.cbUserStatus = userItem.cbUserStatus or 0
+    -- 用户积分
+    newUserItem.lScore = userItem.lScore or 0
+    newUserItem.lGrade = userItem.lGrade or 0
+    newUserItem.lInsure = userItem.lInsure or 0
+    newUserItem.dwWinCount = userItem.dwWinCount or 0
+    newUserItem.dwLostCount = userItem.dwLostCount or 0
+    newUserItem.dwDrawCount = userItem.dwDrawCount or 0
+    newUserItem.dwFleeCount = userItem.dwFleeCount or 0
+    newUserItem.dwUserMedal = userItem.dwUserMedal or 0
+    newUserItem.dwExperience = userItem.dwExperience or 0
+    newUserItem.lLoveLiness = userItem.lLoveLiness or 0
+    -- 扩展信息
+    newUserItem.szNickName = userItem.szNickName or "游戏玩家"    
+    newUserItem.szGroupName = userItem.szGroupName or ""
+    newUserItem.szUnderWrite = userItem.szUnderWrite or ""
+    newUserItem.szUserNote = userItem.szUserNote or ""
+    newUserItem.lJifen = userItem.lJifen or 0
+
+    -- 赋值自己
+    if self.userAttribute.dwUserID == newUserItem.dwUserID then
+        self.mySelfUserItem = newUserItem
+    end
+
+    self.gameUserManager:ActiveUserItem(newUserItem)
+end
+
+function ClientKernel:receiveGameServerUserScoreMessage(event)
+    local userScoreInfo = event.para
+    if userScoreInfo then
+        local clientUserItem = self.gameUserManager:SearchUserByUserID(userScoreInfo.dwUserID)
+        if not clientUserItem then
+            return
+        end
+        self.gameUserManager:UpdateUserItemScore(userScoreInfo.dwUserID,userScoreInfo.UserScore)
+    end
+end
+
+function ClientKernel:receiveGameServerUserStatusMessage(event)
+    local userStatusInfo = event.para
+    if userStatusInfo then
+        --dump(userStatusInfo)
+        local clientUserItem = self.gameUserManager:SearchUserByUserID(userStatusInfo.dwUserID)
+        if not clientUserItem then
+            return
+        end
+        if userStatusInfo.UserStatus.cbUserStatus==US_NULL 
+            or userStatusInfo.UserStatus.cbUserStatus==US_FREE then
+            -- 自己判断
+            if self.mySelfUserItem.dwUserID == userStatusInfo.dwUserID then
+                self.bService = false
+                self.bAllowLookon = false
+                self.mySelfUserItem = nil
+                self.cbGameStatus = GAME_STATUS_FREE
+                self.userAttribute={
+                    dwUserID=0,
+                    wTableID=0,
+                    wChairID=0,
+                    dwUserRight=0,
+                    dwMasterRight=0
+                }
+                --self.gameUserManager:DeleteUserItem(userStatusInfo.dwUserID)
+                self.gameUserManager:ResetUserItem()
+            else
+                self.gameUserManager:DeleteUserItem(userStatusInfo.dwUserID)
+            end
+        else
+            self.gameUserManager:UpdateUserItemStatus(userStatusInfo.dwUserID,userStatusInfo.UserStatus)
+        end
+    end
+end
+
+function ClientKernel:receiveProcessDataMessage(event)
+    local wMainCmdID = event.para.wMainCmdID
+    local wSubCmdID = event.para.wSubCmdID
+    local data = event.para.data
+    -- 控制消息
+    if wMainCmdID == IPC_CMD_GF_CONTROL then
+        --todo
+    elseif wMainCmdID == IPC_CMD_GF_CONFIG then
+        -- 配置完成
+        if IPC_SUB_GF_CONFIG_FINISH == wSubCmdID then
+            self.bService = true
+            if self.bMatchGame then
+                local CMD_GF_GameOptionMatch = {
+                    cbAllowLookon=0,
+                    dwFrameVersion=VERSION_FRAME,
+                    dwClientVersion=self.gameAttribute.dwClientVersion,
+                    cbMatchStatus=data.cbMatchStatus,
+                }
+                self:requestCommand(MDM_GF_FRAME,SUB_GF_GAME_OPTION,CMD_GF_GameOptionMatch,"CMD_GF_GameOptionMatch")
+            else
+                local CMD_GF_GameOption = {
+                    cbAllowLookon=0,
+                    dwFrameVersion=VERSION_FRAME,
+                    dwClientVersion=self.gameAttribute.dwClientVersion,
+                }
+                self:requestCommand(MDM_GF_FRAME,SUB_GF_GAME_OPTION,CMD_GF_GameOption,"CMD_GF_GameOption")
+            end
+        end
+    elseif wMainCmdID == MDM_GF_FRAME then
+        if SUB_GR_MATCHCLIENT_STATUS == wSubCmdID then
+            self.kernelNotificationCenter:dispatchEvent({
+                name = self.Message.GR_MATCHCLIENT_STATUS,
+                para = data,
+            })
+        end
+    end
+end
+
+function ClientKernel:receiveMatchServerStatusMessage(event)
+    
+end
+
+function ClientKernel:receiveMathchServerInfoMessage(event)
+    self:receiveGameServerInfoMessage(event)
+end
+
+function ClientKernel:receiveMatchServerUserItemMessage(event)
+    local userItem = event.para
+    local newUserItem = {}
+    -- 用户属性
+    newUserItem.wFaceID = userItem.wFaceID or 0
+    newUserItem.dwGameID = userItem.dwGameID or 0
+    newUserItem.dwUserID = userItem.dwUserID or 0
+    newUserItem.dwGroupID = userItem.dwGroupID or 0
+    newUserItem.dwCustomID = userItem.dwCustomID or 0
+    newUserItem.cbGender = userItem.cbGender or 0
+    newUserItem.cbMemberOrder = userItem.cbMemberOrder or 0
+    newUserItem.cbMasterOrder = userItem.cbMasterOrder or 0
+    -- 用户状态
+    newUserItem.wTableID = userItem.wTableID or INVALID_TABLE
+    newUserItem.wChairID = userItem.wChairID or INVALID_CHAIR
+    newUserItem.cbUserStatus = userItem.cbUserStatus or 0
+    -- 用户积分
+    newUserItem.lScore = userItem.lScore or 0
+    newUserItem.lGrade = userItem.lGrade or 0
+    newUserItem.lInsure = userItem.lInsure or 0
+    newUserItem.dwWinCount = userItem.dwWinCount or 0
+    newUserItem.dwLostCount = userItem.dwLostCount or 0
+    newUserItem.dwDrawCount = userItem.dwDrawCount or 0
+    newUserItem.dwFleeCount = userItem.dwFleeCount or 0
+    newUserItem.dwUserMedal = userItem.dwUserMedal or 0
+    newUserItem.dwExperience = userItem.dwExperience or 0
+    newUserItem.lLoveLiness = userItem.lLoveLiness or 0
+    -- 扩展信息
+    newUserItem.szNickName = userItem.szNickName or "游戏玩家"    
+    newUserItem.szGroupName = userItem.szGroupName or ""
+    newUserItem.szUnderWrite = userItem.szUnderWrite or ""
+    newUserItem.szUserNote = userItem.szUserNote or ""
+
+    self.gameUserManager:ActiveMatchUserItem(newUserItem)
+end
+
+function ClientKernel:receiveMatchServerUserItemLeaveMessage(event)
+    local userItem = self.gameUserManager:SearchMatchUserByUserID(event.para)
+    if not userItem then
+        return
+    end
+    self.gameUserManager:DeleteMatchUserItem(userItem)
+end
+
+function ClientKernel:receiveMatchServerUserItemUpdateMessage(event)
+    local dwUserID=event.para.dwUserID
+    local matchPacket=event.para.matchPacket
+    local userItem = self.gameUserManager:SearchMatchUserByUserID(dwUserID)
+    if not userItem then
+        return
+    end
+    self.gameUserManager:UpdateMatchUserItemStatus(userItem,matchPacket)
+end
+
+function ClientKernel:OnSocketSubGameStatusMsg(Params)
+    -- CMD_GF_GameStatus 
+    self.cbGameStatus = Params.cbGameStatus
+    self.bAllowLookon = Params.cbAllowLookon
+
+    self.kernelNotificationCenter:dispatchEvent({
+            name = self.Message.GF_GAME_STATUS,
+            para = self.cbGameStatus,
+        })
+    --dump(Params)
+end
+
+function ClientKernel:OnSocketSubUserChatMsg(Params)
+    --[[local CMD_GF_S_UserChat = {
+            wChatLength= ,
+            dwChatColor= ,
+            dwSendUserID= ,
+            dwTargetUserID= ,
+            bShortMsgIndex= ,
+            szChatString="",
+        }]]
+    dump(Params)
+
+    self.kernelNotificationCenter:dispatchEvent({
+            name = self.Message.GF_USER_CHAT,
+            para = Params,
+        })
+end
+
+function ClientKernel:OnSocketSubUserExpressionMsg(Params)
+    --[[local CMD_GF_S_UserExpression = {
+            wItemIndex= ,
+            dwSendUserID= ,
+            dwTargetUserID= ,
+        }]]
+    dump(Params)
+
+    self.kernelNotificationCenter:dispatchEvent({
+            name = self.Message.GF_USER_EXPRESSION,
+            para = Params,
+        })
+end
+
+function ClientKernel:OnSocketGameSubSystemMessage(Params)
+    --[[local CMD_CM_SystemMessageframe = {
+                wType= ,
+                wLength= ,
+                szString="",
+            }]]
+    --dump(Params)
+
+    local systemMessage =  Params
+    if systemMessage then
+        local wType = systemMessage.wType
+        --弹出消息
+        if (0 ~= bit._and(wType, SMT_EJECT)) then
+            local dataMsgBox = {
+                nodeParent=display.getRunningScene(),
+                msgboxType=MSGBOX_TYPE_OK,
+                msgInfo=systemMessage.szString,
+                callBack=function ()
+                    if 0 ~= bit._and(wType, SMT_CLOSE_GAME) then
+                        --关闭游戏
+                        self:exitGameApp()
+                    end
+                end
+            }
+            require("plazacenter.widgets.CommonMsgBoxWidget").new(dataMsgBox)
+        end
+    end  
+end
+return ClientKernel

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<UIProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>E:\oxsix\oxsixui</ProjectDir>
+  <Version>1.6.0.0</Version>
+  <Resources>E:\oxsix\oxsixui\Resources</Resources>
+  <Name>NewUi</Name>
+  <JsonFileName>NewUi.json</JsonFileName>
+  <JsonFolder>E:\oxsix\oxsixui\Json</JsonFolder>
+  <JsonList>
+    <string>oxsixLayer.json</string>
+    <string>changeView.json</string>
+    <string>oxtwoLayer.json</string>
+    <string>oxfourLayer.json</string>
+    <string>oxqkbLayer.json</string>
+  </JsonList>
+  <CanvasSize>
+    <Width>1136</Width>
+    <Height>640</Height>
+  </CanvasSize>
+  <filePath>E:\oxsix\oxsixui\NewUi.xml.ui</filePath>
+  <ProjectType>UIProject</ProjectType>
+  <ResRelativePath />
+  <imageFileList>
+    <string>UIGameIng.plist</string>
+  </imageFileList>
+  <imagePngList />
+  <JsonSuffix>.json</JsonSuffix>
+  <CurrentUIJson>oxfourLayer.json</CurrentUIJson>
+</UIProject>

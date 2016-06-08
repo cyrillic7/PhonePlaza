@@ -1,0 +1,36 @@
+local data = {
+	version = "1.1.1",
+	orginalVersion = "1.1.1",
+	isInReview = 1,
+	lib = {
+		["res/lib/framework.zip"] = "res/lib/framework.zip",
+		["res/lib/cocos.zip"] = "res/lib/cocos.zip",
+		["res/lib/common.zip"] = "res/lib/common.zip",
+		["res/lib/plazacenter.zip"] = "res/lib/plazacenter.zip",
+	},
+	dwTerminal="1",
+	k_session_id = "22222",
+	k_session_verion = "a01",
+	game_list = {
+		Normal160="160",
+		Normal560="560",
+		Normal450="450",
+		Normal460="460",
+		Normal590="590",
+		Normal430="430",
+		Normal210="210",
+		Normal130="130",
+		Normal30="30",
+		Normal20="20",
+		Normal190="190",
+		Match310="310"
+	},
+	update_url = "http://download.719you.com/download/Mobile/PlazaCenter/resinfo_22222_a01.txt",
+	url_downloadClient = "http://download.719you.com/download/Mobile/",
+	url_logon_list = {
+		"login1.719you.com",
+		"login2.719you.com",
+		"116.31.119.173"
+	},
+}
+return data

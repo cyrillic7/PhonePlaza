@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfGuidesProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <GuidesProject>
+    <Project>upBanderView</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>trendChartLayer</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>playerItem</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>battleBankerItem</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>oxbattleLayer</Project>
+    <GuidesList />
+  </GuidesProject>
+  <GuidesProject>
+    <Project>trendChartItem</Project>
+    <GuidesList />
+  </GuidesProject>
+</ArrayOfGuidesProject>

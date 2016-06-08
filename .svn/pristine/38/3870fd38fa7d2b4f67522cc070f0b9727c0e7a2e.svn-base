@@ -1,0 +1,117 @@
+
+--排行结点
+local RankNode = class("RankNode", function()
+	return ccs.GUIReader:getInstance():widgetFromJsonFile("transferbattle/rank/ball_6_paihangbang2.ExportJson")
+end)
+
+function RankNode:ctor()
+	self:init()
+end
+
+function RankNode:init()
+	self:setTouchEnabled(false)
+
+	--名次文本，图片
+	self.rankLabel = self:getChildByTag(265)
+	self.rankImage = self:getChildByTag(266)
+
+	--头像，性别，城市简称，名字，城市全称
+	self.headImage = self:getChildByTag(267)
+	self.sexImage = self:getChildByTag(268)
+	self.sCityLabel = self:getChildByTag(273)
+	self.nameLabel = self:getChildByTag(269)
+	self.fCityLabel = self:getChildByTag(748)
+
+	--数据图片，文本
+	self.valueImage = self:getChildByTag(578)
+	self.valueLabel = self:getChildByTag(271)
+end
+
+--设置名次
+function RankNode:setRankLabel(num)
+	self:setLabelColor(num)
+	self.rankLabel:setString("" .. num)
+
+	if num > 0 and num <= 3 then
+		self.rankImage:setVisible(true)
+
+		local imageName = "img_no" .. num .. "_big.png"
+		self.rankImage:loadTexture(imageName, ccui.TextureResType.plistType)
+	else
+		self.rankImage:setVisible(false)
+	end
+end
+
+--设置文本颜色
+function RankNode:setLabelColor(num)
+	local color
+
+	if num == 1 then
+		color = cc.c3b(234, 0, 72)
+	elseif num == 2 then
+		color = cc.c3b(0, 98, 161)
+	elseif num == 3 then
+		color = cc.c3b(1885, 69, 0)
+	else
+		color = cc.c3b(255, 255, 255)
+	end
+
+	self.nameLabel:setColor(color)
+	self.sCityLabel:setColor(color)
+	self.fCityLabel:setColor(color)
+	self.valueLabel:setColor(color)
+end
+
+--设置头像图片
+function RankNode:setHeadImage(index)
+	--根据index获取对应的头像名称，设置头像
+end
+
+--设置性别图片(1:男，not 1：女)
+function RankNode:setSexImage(index)
+	local imageName = "nan.png"
+
+	if index ~= 1 then
+		imageName = "nv.png"
+	end
+
+	self.sexImage:loadTexture(imageName, ccui.TextureResType.plistType)
+end
+
+--设置城市简称
+function RankNode:setSCityLabel(cityID)
+	self.headImage:setVisible(true)
+	self.sexImage:setVisible(true)
+	self.fCityLabel:setString("")
+	self.sCityLabel:setString(DefineConfig.CITY_LIST[cityID].sName)
+end
+
+--设置昵称
+function RankNode:setNameLabel(nickName)
+	self.headImage:setVisible(true)
+	self.sexImage:setVisible(true)
+	self.fCityLabel:setString("")
+	self.nameLabel:setString(nickName)
+end
+
+--设置城市全称
+function RankNode:setFCityLabel(cityID)
+	self.headImage:setVisible(false)
+	self.sexImage:setVisible(false)
+	self.sCityLabel:setString("")
+	self.nameLabel:setString("")
+	self.fCityLabel:setString(DefineConfig.CITY_LIST[cityID].fName)
+end
+
+--设置数据图片
+function RankNode:setValueImage(imageName)
+	self.valueImage:loadTexture(imageName, ccui.TextureResType.plistType)
+end
+
+--设置数据文本
+function RankNode:setValueLabel(value)
+	self.valueLabel:setString("x " .. value)
+end
+
+
+return RankNode

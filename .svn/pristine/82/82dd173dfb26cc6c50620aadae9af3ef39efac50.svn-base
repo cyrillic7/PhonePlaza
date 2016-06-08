@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<UIProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>F:\项目\niuniuUI\oxsix\oxbattle</ProjectDir>
+  <Version>1.6.0.0</Version>
+  <Resources>F:\项目\niuniuUI\oxsix\oxbattle\Resources</Resources>
+  <Name>NewUi</Name>
+  <JsonFileName>NewUi.json</JsonFileName>
+  <JsonFolder>F:\项目\niuniuUI\oxsix\oxbattle\Json</JsonFolder>
+  <JsonList>
+    <string>oxbattleLayer.json</string>
+    <string>battleBankerItem.json</string>
+    <string>trendChartItem.json</string>
+    <string>playerItem.json</string>
+    <string>trendChartLayer.json</string>
+    <string>upBanderView.json</string>
+  </JsonList>
+  <CanvasSize>
+    <Width>1136</Width>
+    <Height>640</Height>
+  </CanvasSize>
+  <filePath>F:\项目\niuniuUI\oxsix\oxbattle\oxbattle.ui</filePath>
+  <ProjectType>UIProject</ProjectType>
+  <ResRelativePath />
+  <imageFileList>
+    <string>UIGameBattleIng.plist</string>
+  </imageFileList>
+  <imagePngList />
+  <JsonSuffix>.json</JsonSuffix>
+  <CurrentUIJson>oxbattleLayer.json</CurrentUIJson>
+</UIProject>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<UIProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>F:\PhonePlaza\CocosStudioRes\CocosStudio\ccsprojs\YS9zhangWidget</ProjectDir>
+  <Version>1.6.0.0</Version>
+  <Resources>F:\PhonePlaza\CocosStudioRes\CocosStudio\assets</Resources>
+  <Name>YS9zhangWidget</Name>
+  <JsonFileName>YS9zhangWidget.json</JsonFileName>
+  <JsonFolder>F:\PhonePlaza\CocosStudioRes\CocosStudio\ccsprojs\YS9zhangWidget\Json</JsonFolder>
+  <JsonList>
+    <string>UIWidgetUserInfo.json</string>
+  </JsonList>
+  <CanvasSize>
+    <Width>1136</Width>
+    <Height>640</Height>
+  </CanvasSize>
+  <filePath>F:\PhonePlaza\CocosStudioRes\CocosStudio\ccsprojs\YS9zhangWidget\YS9zhangWidget.xml.ui</filePath>
+  <ProjectType>UIProject</ProjectType>
+  <ResRelativePath>\\..\\..\\assets</ResRelativePath>
+  <imageFileList>
+    <string>UIHallSundry.plist</string>
+    <string>UIHallText.plist</string>
+    <string>UIHallButton.plist</string>
+  </imageFileList>
+  <imagePngList />
+  <JsonSuffix>.json</JsonSuffix>
+  <CurrentUIJson>UIWidgetUserInfo.json</CurrentUIJson>
+</UIProject>
