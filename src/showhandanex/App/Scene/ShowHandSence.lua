@@ -51,7 +51,7 @@ function ShowHandScene:ctor(args)
 
     self.handCardPos=
         {
-           cc.p(display.cx-90,140),--1号位置 对家
+           cc.p(display.cx-100,150),--1号位置 对家
             cc.p(display.cx-100,display.height - 160),--4号位置 对家
         }
 
@@ -61,14 +61,14 @@ function ShowHandScene:ctor(args)
     --用户手牌的大小
     self.handCardScal=
         {
-             0.6,--1号位置 对家
+             0.7,--1号位置 对家
             0.6,--4号位置 对家
         }
 
      --用户手牌的间距
     self.handCardDistance=
         {
-             30,--0号位置 对家
+             35,--0号位置 对家
             30,--1号位置 对家
         }
 
@@ -244,7 +244,7 @@ function ShowHandScene:InitHandCardControl()
         self.m_HandCardControl[i]:SetStartPos(self.HeapPos)
         self.m_HandCardControl[i]:SetDistance(self.handCardDistance[i])
         --self.m_HandCardControl[i]:SetDistance(22)
-        self.m_HandCardControl[i]:SetScal(0.6)
+        self.m_HandCardControl[i]:SetScal(self.handCardScal[i])
         self.m_HandCardControl[i]:addTo(self.jsonnode)
         self.m_HandCardControl[i]:zorder(100)
         self.m_HandCardControl[i]:SetShow(false)
@@ -275,7 +275,7 @@ function ShowHandScene:FreeAllData()
 
     self.handCardPos=
         {
-           cc.p(display.cx-90,140),--1号位置 对家
+           cc.p(display.cx-100,150),--1号位置 对家
             cc.p(display.cx-100,display.height - 160),--4号位置 对家
         }
 
@@ -410,7 +410,7 @@ end
 
 --游戏开始
 function ShowHandScene:OnSubGameStart(evt)
-    dump(evt)
+    --dump(evt)
 
     self.HandCardCount={0,0}
     self.m_handCardData={}
@@ -465,6 +465,10 @@ function ShowHandScene:OnSubGameStart(evt)
 
     self:StartDisPachCards(1,1,2)
 
+    self.btnChangeDesk:hide()
+
+    SoundManager:playMusicEffect("showhandanex/audio/GAME_START.mp3", false, false)
+
 end
 
 function ShowHandScene:dispatchUserCard(wChairID,cbCardData)
@@ -515,6 +519,8 @@ function ShowHandScene:StartDisPachCards(startid,startcard,cardcount)
             index = index + 1
         end
     end
+
+    SoundManager:playMusicEffect("showhandanex/audio/SEND_CARD.mp3", false, false)
 end
 
 function ShowHandScene:DisPatchOneCardEnd()
@@ -562,7 +568,7 @@ end
 --用户加注
 function ShowHandScene:OnSubAddScore(evt)
     print("用户加注")
-    dump(evt)
+    --dump(evt)
 
     self.m_Player:KillUserClock()
 
@@ -583,6 +589,8 @@ function ShowHandScene:OnSubAddScore(evt)
         print("加注梭哈---------OnSubAddScore")
         self.m_gameAni:DoAllinAni()
         bsh=true
+
+        SoundManager:playMusicEffect("showhandanex/audio/SHOW_HAND.mp3", false, false)
     end
 
     if self.m_GameKernel:GetMeChairID() == lastchair then
@@ -633,12 +641,18 @@ function ShowHandScene:OnSubAddScore(evt)
         --print("Addpos[2].x"..Addpos[2].x,"Addpos[2].y"..Addpos[2].y)
         self:SetUserAddScoreUser(1,GameAddDB.lLastAddGold,Addpos[2].x,Addpos[2].y)
     end
+
+    if bsh == false and  addscore > 0 then
+        SoundManager:playMusicEffect("showhandanex/audio/ADD_SCORE.mp3", false, false)
+    elseif addscore == 0 then
+        SoundManager:playMusicEffect("showhandanex/audio/NO_ADD.mp3", false, false)
+    end
 end
 
 --用户放弃
 function ShowHandScene:OnSubGiveUp(evt)
     print("用户放弃")
-    dump(evt)
+    --dump(evt)
     
     self.m_Player:KillUserClock()
     local GameGiveUpDB=evt.para
@@ -656,12 +670,13 @@ function ShowHandScene:OnSubGiveUp(evt)
 
     self.busergiveup=true
 
+    SoundManager:playMusicEffect("showhandanex/audio/GIVE_UP.mp3", false, false)
 end
 
 --发牌消息
 function ShowHandScene:OnSubSendCard(evt)
     print("发牌消息")
-    dump(evt)
+    --dump(evt)
 
     self.m_Player:KillUserClock()
 
@@ -720,7 +735,7 @@ end
 --游戏结束
 function ShowHandScene:OnSubGameEnd(evt)
     print("游戏结束")
-    dump(evt)
+    --dump(evt)
 
     self.m_Player:KillUserClock()
 
@@ -753,8 +768,12 @@ function ShowHandScene:OnSubGameEnd(evt)
             if Gameendscore[i+1] > 0 then
                 if i==self.m_GameKernel:GetMeChairID() then
                     self:moveJettons(ShowHandDefine.MYSELF_VIEW_ID)
+
+                    SoundManager:playMusicEffect("showhandanex/audio/GAME_WIN.mp3", false, false)
                 else
                     self:moveJettons(ShowHandDefine.MYSELF_VIEW_ID+1)
+
+                    SoundManager:playMusicEffect("showhandanex/audio/GAME_LOST.mp3", false, false)
                 end
         end
     end
@@ -766,9 +785,14 @@ function ShowHandScene:OnSubGameEnd(evt)
     self.OppoOperationView:setPositionX(self.OppoOperPosX)
 
 
+    self.Addless:setString("底注:"..self.m_lBasicGold)
+    self.Addmax:setString("上限:"..self.m_lShowHandScore)
+
     self:UpdateAddView(false)
     self.ButtonStart:show()
     self.m_Player:SetUserClock(ShowHandDefine.MYSELF_VIEW_ID, 15, ShowHandDefine.IDI_START_GAME)
+
+    self.btnChangeDesk:show()
 end
 ---------------[[以下是接收游戏服务端场景消息处理]]--------------
 --场景
@@ -785,7 +809,14 @@ function ShowHandScene:OnGameScenceMsg(evt)
 
         self.m_lBasicGold = pStatusFree.dwBasicGold
 
-        self.ButtonStart:show() 
+        self.ButtonStart:show()
+
+        for i=1,ShowHandDefine.GAME_PLAYER do
+            self.m_Player:SetTableGold(i, 0)
+        end
+
+        self.Addless:setString("底注:"..self.m_lBasicGold)
+        self.Addmax:setString("上限:"..self.m_lShowHandScore)
 
         self.m_Player:SetUserClock(ShowHandDefine.MYSELF_VIEW_ID, 15, ShowHandDefine.IDI_START_GAME)
     end
@@ -795,6 +826,7 @@ function ShowHandScene:OnGameScenceMsg(evt)
 
         local statusPlay = self.ClientKernel:ParseStruct(unResolvedData.dataPtr,unResolvedData.size,"CMD_S_StatusPlay")
         dump(statusPlay)
+        self.btnChangeDesk:hide()
         self.m_lTurnMaxGold = statusPlay.lTurnMaxGold
         self.m_lTurnBasicGold = statusPlay.lTurnBasicGold
         self.m_lBasicGold = statusPlay.lBasicGold
@@ -871,7 +903,8 @@ function ShowHandScene:OnGameScenceMsg(evt)
         self:StartDisPachCards(1,1,self.HandCardcount[1])
 
         self.m_Player:SetTableTotalScore()
-
+        self.Addless:setString("底注:"..self.m_lBasicGold)
+        self.Addmax:setString("上限:"..statusPlay.lShowHandScore)
         --print("self.m_wCurrentCardCount == "..self.m_wCurrentCardCount,"wMechairid == "..wMechairid)
         if self.m_wCurrentCardCount == wMechairid then
             self.AddView:show()
@@ -885,7 +918,7 @@ end
 --控件消息
 function ShowHandScene:ButtonMsg()
 
-    dump(self.ButtonExit)
+    --dump(self.ButtonExit)
    self.ButtonStart:onButtonClicked(function () self:BtStartGame() end)--开始按钮事件
    self.ButtonExit:onButtonClicked(function () self:CloseGame() end)--离开按钮事件
    self.ButtonRule:onButtonClicked(function () self:BtGameRule() end)--游戏规则

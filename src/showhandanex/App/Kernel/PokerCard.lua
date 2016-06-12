@@ -82,9 +82,6 @@ function PokerCard:ctor(args)
     self:setScale(0.3)
     self.select = false
 
-    self.imagePress  = ccui.ImageView:create():addTo(self)
-    self.imagePress:loadTexture("ys9zhang/u_game_bg_card_press.png")
-    self.imagePress:setVisible(false)
     -- 默认30度倾斜
     --self:set3DRotationAngle(30)
     --for tesst

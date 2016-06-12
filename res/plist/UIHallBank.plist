@@ -4,10 +4,88 @@
     <dict>
         <key>frames</key>
         <dict>
+            <key>pic/plazacenter/Bank/a_text_hd_0.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1261,65},{186,30}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{186,30}}</string>
+                <key>sourceSize</key>
+                <string>{186,30}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/a_text_hd_1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1073,65},{186,30}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{186,30}}</string>
+                <key>sourceSize</key>
+                <string>{186,30}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/a_text_hd_2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{885,74},{186,30}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{186,30}}</string>
+                <key>sourceSize</key>
+                <string>{186,30}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/a_text_hd_3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{556,82},{186,30}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{186,30}}</string>
+                <key>sourceSize</key>
+                <string>{186,30}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/a_text_hd_4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{368,82},{186,30}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{186,30}}</string>
+                <key>sourceSize</key>
+                <string>{186,30}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/a_text_hd_5.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{180,82},{186,30}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{186,30}}</string>
+                <key>sourceSize</key>
+                <string>{186,30}</string>
+            </dict>
             <key>pic/plazacenter/Bank/u_Bg_green.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{79,601},{52,40}}</string>
+                <string>{{1894,64},{52,40}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -20,7 +98,7 @@
             <key>pic/plazacenter/Bank/u_CheckBox_bg.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{78,689},{32,32}}</string>
+                <string>{{1828,92},{32,32}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -33,7 +111,7 @@
             <key>pic/plazacenter/Bank/u_CheckBox_fore.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{79,655},{32,32}}</string>
+                <string>{{1967,78},{32,32}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -43,10 +121,36 @@
                 <key>sourceSize</key>
                 <string>{32,32}</string>
             </dict>
+            <key>pic/plazacenter/Bank/u_checkbox_n.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1108,97},{221,19}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{221,19}}</string>
+                <key>sourceSize</key>
+                <string>{221,19}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_checkbox_s.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{885,106},{221,19}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{221,19}}</string>
+                <key>sourceSize</key>
+                <string>{221,19}</string>
+            </dict>
             <key>pic/plazacenter/Bank/u_safe_btn_access.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{114,70}}</string>
+                <string>{{848,2},{114,70}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -56,27 +160,105 @@
                 <key>sourceSize</key>
                 <string>{114,70}</string>
             </dict>
-            <key>pic/plazacenter/Bank/u_safe_line.png</key>
+            <key>pic/plazacenter/Bank/u_safe_btn_accesssmall.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{118,2},{195,2}}</string>
+                <string>{{1273,2},{101,61}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{101,61}}</string>
+                <key>sourceSize</key>
+                <string>{101,61}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_btn_x.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1862,92},{21,21}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{21,21}}</string>
+                <key>sourceSize</key>
+                <string>{21,21}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_hide.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1170,2},{101,61}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{101,61}}</string>
+                <key>sourceSize</key>
+                <string>{101,61}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_history.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1067,2},{101,61}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{101,61}}</string>
+                <key>sourceSize</key>
+                <string>{101,61}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_line.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,121},{195,2}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{195,2}}</string>
                 <key>sourceSize</key>
                 <string>{195,2}</string>
             </dict>
-            <key>pic/plazacenter/Bank/u_safe_paging_btn.png</key>
+            <key>pic/plazacenter/Bank/u_safe_line2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{62,723},{139,48}}</string>
+                <string>{{180,114},{8,2}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{8,2}}</string>
+                <key>sourceSize</key>
+                <string>{8,2}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_number.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{678,62},{135,13}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{135,13}}</string>
+                <key>sourceSize</key>
+                <string>{135,13}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_paging_btn.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{744,77},{139,48}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{139,48}}</string>
                 <key>sourceSize</key>
@@ -85,20 +267,72 @@
             <key>pic/plazacenter/Bank/u_safe_paging_btn_press.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,692},{168,58}}</string>
+                <string>{{678,2},{168,58}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{168,58}}</string>
                 <key>sourceSize</key>
                 <string>{168,58}</string>
             </dict>
+            <key>pic/plazacenter/Bank/u_safe_present.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{964,2},{101,61}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{101,61}}</string>
+                <key>sourceSize</key>
+                <string>{101,61}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_ruler_bg.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,2},{674,78}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{674,78}}</string>
+                <key>sourceSize</key>
+                <string>{674,78}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_ruler_slider.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1376,2},{49,108}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{49,108}}</string>
+                <key>sourceSize</key>
+                <string>{49,108}</string>
+            </dict>
+            <key>pic/plazacenter/Bank/u_safe_slider_present_bg.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1936,64},{49,29}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{49,29}}</string>
+                <key>sourceSize</key>
+                <string>{49,29}</string>
+            </dict>
             <key>pic/plazacenter/Bank/u_safe_text_1000wan.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,563},{82,26}}</string>
+                <string>{{1885,2},{82,26}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +345,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_100wan.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,535},{82,26}}</string>
+                <string>{{1810,64},{82,26}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -124,7 +358,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_1yi.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,507},{82,26}}</string>
+                <string>{{1801,2},{82,26}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -137,7 +371,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_5000wan.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,479},{82,26}}</string>
+                <string>{{1726,64},{82,26}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -150,7 +384,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_500wan.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,451},{82,26}}</string>
+                <string>{{1642,64},{82,26}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -163,7 +397,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_all.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,423},{82,26}}</string>
+                <string>{{1558,64},{82,26}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -176,7 +410,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_amend.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,392},{103,29}}</string>
+                <string>{{1768,33},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -189,7 +423,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_amend2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,361},{103,29}}</string>
+                <string>{{1646,92},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -202,7 +436,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_cr.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,625},{75,32}}</string>
+                <string>{{1873,30},{75,32}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -215,7 +449,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_deposit.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,330},{103,29}}</string>
+                <string>{{1696,2},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -228,7 +462,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_deposit2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,299},{103,29}}</string>
+                <string>{{1663,33},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -241,7 +475,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_detail.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,268},{103,29}}</string>
+                <string>{{1591,2},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -254,7 +488,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_detail2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,237},{103,29}}</string>
+                <string>{{1558,33},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -267,7 +501,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_giving.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,206},{103,29}}</string>
+                <string>{{1486,2},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -280,7 +514,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_giving2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,175},{103,29}}</string>
+                <string>{{1541,92},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -293,11 +527,11 @@
             <key>pic/plazacenter/Bank/u_safe_text_login.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{86,423},{176,37}}</string>
+                <string>{{2,82},{176,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{176,37}}</string>
                 <key>sourceSize</key>
@@ -306,11 +540,11 @@
             <key>pic/plazacenter/Bank/u_safe_text_qc.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,659},{74,31}}</string>
+                <string>{{1969,2},{74,31}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{74,31}}</string>
                 <key>sourceSize</key>
@@ -319,7 +553,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_safe.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,74},{107,37}}</string>
+                <string>{{1449,53},{107,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -332,7 +566,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_takeout.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,144},{103,29}}</string>
+                <string>{{1436,97},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -345,7 +579,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_takeout2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,113},{103,29}}</string>
+                <string>{{1331,97},{103,29}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -358,7 +592,7 @@
             <key>pic/plazacenter/Bank/u_safe_text_zs.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,591},{75,32}}</string>
+                <string>{{1751,92},{75,32}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -376,9 +610,9 @@
             <key>realTextureFileName</key>
             <string>UIHallBank.png</string>
             <key>size</key>
-            <string>{125,880}</string>
+            <string>{2002,128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:62fc4894eb0276a981548144747a26ea:8bc6f9959f224ec80f3b3df2820bb775:b91b82a49bbbcc9d69bbb50503b43eda$</string>
+            <string>$TexturePacker:SmartUpdate:666c55ba4eda46a12ce1557358feccba:07a48eabf67657c8d61c367c44bdc031:b91b82a49bbbcc9d69bbb50503b43eda$</string>
             <key>textureFileName</key>
             <string>UIHallBank.png</string>
         </dict>

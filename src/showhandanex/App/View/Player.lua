@@ -1,5 +1,5 @@
 
-local UsersitItem=import("..View.UserSitItem")
+--local UsersitItem=import("..View.UserSitItem")
 
 local Player=class("Player")
 	
@@ -101,14 +101,15 @@ function Player:ctor(Json,Kernel)
       cc.p(self.Face_me:getPositionX()+140, self.Face_me:getPositionY()+50)
     }
 
-    self.UserSitItem={}
+    --[[self.UserSitItem={}
     for i=1,ShowHandDefine.GAME_PLAYER do
         self.UserSitItem[i]=UsersitItem.new()
         self.UserSitItem[i]:addTo(self.Node)
         self.UserSitItem[i]:setWarnningPort(warnningpaot[i])
-    end
+    end]]
 
-    self.MyPlayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (e)
+    self.FaceFrame_me:setTouchEnabled(true)
+    self.FaceFrame_me:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (e)
             if e.name == "began" then 
                 local bHideUserInfo = (0 ~= bit._and(self.ClientKernel.serverAttribute.dwServerRule, SR_ALLOW_AVERT_CHEAT_MODE))
                 if not bHideUserInfo then
@@ -117,8 +118,8 @@ function Player:ctor(Json,Kernel)
                 
             end
         end)
-
-    self.OppoPlayer:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (e)
+    self.FaceFrame_Oth:setTouchEnabled(true)
+    self.FaceFrame_Oth:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (e)
             if e.name == "began" then 
                 local bHideUserInfo = (0 ~= bit._and(self.ClientKernel.serverAttribute.dwServerRule, SR_ALLOW_AVERT_CHEAT_MODE))
                 if not bHideUserInfo then
@@ -287,23 +288,6 @@ function Player:GetFollowScore(viewid,shsocre)
     --self:SetGold(viewid, lgold)
 
     return lgold
-end
-
---用户报警
-function Player:SetWarning(viewID)
-    --自己
-    if viewID==ShowHandDefine.MYSELF_VIEW_ID then
-        self.UserSitItem[viewID+1]:showAlarm(true)
-    --对家
-    else
-        self.UserSitItem[viewID+1]:showAlarm(true)
-    end
-end
---重置报警
-function Player:ClearWarning()
-    for i=1,ShowHandDefine.GAME_PLAYER do
-        self.UserSitItem[i]:Reset()  
-    end
 end
 
 --设置托管

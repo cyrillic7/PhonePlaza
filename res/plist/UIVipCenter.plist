@@ -4,14 +4,27 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>pic/plazacenter/VipCenter/u_icon_v1.png</key>
+            <key>pic/plazacenter/VipCenter/u_icon_v0.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{469,25},{39,21}}</string>
+                <string>{{105,215},{39,21}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{39,21}}</string>
+                <key>sourceSize</key>
+                <string>{39,21}</string>
+            </dict>
+            <key>pic/plazacenter/VipCenter/u_icon_v1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{82,207},{39,21}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{39,21}}</string>
                 <key>sourceSize</key>
@@ -20,11 +33,11 @@
             <key>pic/plazacenter/VipCenter/u_icon_v2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{449,2},{39,21}}</string>
+                <string>{{105,174},{39,21}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{39,21}}</string>
                 <key>sourceSize</key>
@@ -33,11 +46,11 @@
             <key>pic/plazacenter/VipCenter/u_icon_v3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{428,35},{39,21}}</string>
+                <string>{{105,133},{39,21}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{39,21}}</string>
                 <key>sourceSize</key>
@@ -46,11 +59,11 @@
             <key>pic/plazacenter/VipCenter/u_icon_v4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{387,35},{39,21}}</string>
+                <string>{{82,166},{39,21}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{39,21}}</string>
                 <key>sourceSize</key>
@@ -59,7 +72,7 @@
             <key>pic/plazacenter/VipCenter/u_icon_v5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{346,41},{39,21}}</string>
+                <string>{{41,212},{39,21}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +85,7 @@
             <key>pic/plazacenter/VipCenter/u_icon_v6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{305,41},{39,21}}</string>
+                <string>{{41,189},{39,21}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +98,7 @@
             <key>pic/plazacenter/VipCenter/u_icon_v7.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{264,41},{39,21}}</string>
+                <string>{{41,166},{39,21}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,11 +111,11 @@
             <key>pic/plazacenter/VipCenter/u_vip_btn_light.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{133,2},{129,51}}</string>
+                <string>{{55,2},{129,51}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{129,51}}</string>
                 <key>sourceSize</key>
@@ -115,7 +128,7 @@
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{129,51}}</string>
                 <key>sourceSize</key>
@@ -124,11 +137,11 @@
             <key>pic/plazacenter/VipCenter/u_vip_tetx_vip.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{264,2},{120,37}}</string>
+                <string>{{2,133},{120,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{120,37}}</string>
                 <key>sourceSize</key>
@@ -137,7 +150,7 @@
             <key>pic/plazacenter/VipCenter/u_vip_text_recharge.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{386,2},{61,31}}</string>
+                <string>{{41,133},{61,31}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -155,9 +168,9 @@
             <key>realTextureFileName</key>
             <string>UIVipCenter.png</string>
             <key>size</key>
-            <string>{510,64}</string>
+            <string>{128,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:178f3b0d53f80ce49ddd5853634eb651:11f435a176b7390024aa7cc5822cf3ac:ab897f381cca6754b19bc9ab0edf652e$</string>
+            <string>$TexturePacker:SmartUpdate:d0e49cbb5f0cc0ea7635315c30cc7c90:5f54e311331538e0a5c7b031bb46b501:ab897f381cca6754b19bc9ab0edf652e$</string>
             <key>textureFileName</key>
             <string>UIVipCenter.png</string>
         </dict>
