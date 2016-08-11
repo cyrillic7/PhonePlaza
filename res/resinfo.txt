@@ -1,6 +1,6 @@
 local data = {
-	version = "1.1.1",
-	orginalVersion = "1.1.1",
+	version = "1.2.1",
+	orginalVersion = "1.2.1",
 	isInReview = 1,
 	lib = {
 		["res/lib/framework.zip"] = "res/lib/framework.zip",
@@ -9,7 +9,7 @@ local data = {
 		["res/lib/plazacenter.zip"] = "res/lib/plazacenter.zip",
 	},
 	dwTerminal="1",
-	k_session_id = "22222",
+	k_session_id = "10022",
 	k_session_verion = "a01",
 	game_list = {
 		Normal160="160",
@@ -25,14 +25,18 @@ local data = {
 		Normal620="620",
 		Normal190="190",
 		Normal420="420",
+		Normal220="220",
 		Normal170="170",
 		Match310="310"
 	},
-	update_url = "http://download.719you.com/download/Mobile/PlazaCenter/resinfo_22222_a01.txt",
+	update_url = "http://download.719you.com/download/Mobile/PlazaCenter/resinfo_10022_a01.txt",
 	url_downloadClient = "http://download.719you.com/download/Mobile/",
 	url_logon_list = {
+		"116.31.119.132",
 		"login1.719you.com",
 		"login2.719you.com",
+		"login3.719you.com",
+		"login4.719you.com",
 		"116.31.119.173"
 	},
 }

@@ -990,14 +990,11 @@ function oxBattle:OnSubSendRecord(evt)
     print("游戏记录")
     local p = evt.para.unResolvedData
 
-    local tagServerGameRecord = self.ClientKernel:ParseStruct(p.dataPtr,p.size,"tagServerGameRecord")
+    local tagServerGameRecord = self.ClientKernel:ParseStructGroup(p,"tagServerGameRecord")
     --dump(tagServerGameRecord)
-    for index=1, 15 do
-        local item1 = tagServerGameRecord["bWinDaoMen"][index]
-        local item2 = tagServerGameRecord["bWinDuiMen"][index]
-        local item3 = tagServerGameRecord["bWinHuang"][index]
-        local item4 = tagServerGameRecord["bWinShunMen"][index]
-        local timeOne = {item1,item2,item3,item4}
+    for k,v in pairs(tagServerGameRecord) do
+ 
+        local timeOne = {v.bWinShunMen,v.bWinDuiMen,v.bWinDaoMen,v.bWinHuang}
 
         self:trendChartOne(timeOne)
     end
@@ -1022,7 +1019,7 @@ end
 
 function oxBattle:SetAnimCard(wViewChairID,number,outCardData)
 
-    print("wViewChairID= %d, number= %d",wViewChairID,number)
+    print("wViewChairID= "..wViewChairID,"number= "..number)
 
     if number == false then
         number = 0
@@ -1034,7 +1031,7 @@ function oxBattle:SetAnimCard(wViewChairID,number,outCardData)
         for key, j in pairs(outCardData) do
             if i == j then
                 dawang = dawang + 1
-        	end
+            end
         end 
     end
     
@@ -1045,15 +1042,43 @@ function oxBattle:SetAnimCard(wViewChairID,number,outCardData)
             end
         end 
     end
-    
-    if not self.handCardControl[wViewChairID]:getChildByName("AnimationOxType") then
-        if number == 10 and dawang >=4 then
-        	num = 11
-        elseif number == 10 and xiaowang >= 4 then
+
+    local blBig = true
+    local iValueTen = 0
+    for i=1,5 do
+        local bcvalue = GameLogic:GetCardLogicValue(outCardData[i])
+        if bcvalue ~= 10 and bcvalue ~= 11 then
+            blBig = false
+            break
+        else
+            if GameLogic:GetCardNewValue(outCardData[i]) == 10 then
+                iValueTen = iValueTen + 1
+            end
+        end
+    end
+
+    print("iValueten ================================================== "..iValueTen)
+
+    if blBig == true then
+        if number == 10 and iValueTen==0 then
+            num = 11
+        elseif number == 10 and iValueTen==1 then
             num = 12
         else
             num = number
         end
+    else
+        num = number
+    end
+    
+    if not self.handCardControl[wViewChairID]:getChildByName("AnimationOxType") then
+        --[[if number == 10 and dawang ==5 then
+            num = 11
+        elseif number == 10 and xiaowang == 5 then
+            num = 12
+        else
+            num = number
+        end]]
         local armature = oxui.playAnimation(self.handCardControl[wViewChairID],200,"AnimationOxType",num,false)
         armature:setName("AnimationOxType")
         armature:setScale(0.6)
@@ -1535,6 +1560,9 @@ function oxBattle:moveJettons()
     --测试数据 
     --dump(self.lAllUserWin)  
     self:trendChartOne(self.lAllUserWin)
+    self:performWithDelay(function ()
+        self.trendChartList:jumpToRight()
+    end, 0.2)
     
     for key, jetton in pairs(self.allJettonList) do 
         if self.lAllUserWin[jetton:getTag()] == true then

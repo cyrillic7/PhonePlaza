@@ -756,9 +756,12 @@ function ShowHandScene:OnSubGameEnd(evt)
                 --self.m_handCardData[i][1]=GameEndDB.bUserCard[i]
                 self.m_HandCardControl[ShowHandDefine.MYSELF_VIEW_ID]:SetShowEx(1, true)
             else
+                --print("cccccccccccccccccself.m_handCardData[i+1][1]=="..self.m_handCardData[i+1][1])
+                --print("xxxxxxxxxxxxxxxxxGameEndDB.bUserCard[i+1]=="..GameEndDB.bUserCard[i+1])
                 self.m_HandCardControl[ShowHandDefine.MYSELF_VIEW_ID+1]:OnChangeCard(self.m_handCardData[i+1][1],GameEndDB.bUserCard[i+1])
                 self.m_handCardData[i+1][1]=GameEndDB.bUserCard[i+1]
                 self.m_HandCardControl[ShowHandDefine.MYSELF_VIEW_ID+1]:SetShowEx(1, true)
+
             end
         end
     end
@@ -889,8 +892,6 @@ function ShowHandScene:OnGameScenceMsg(evt)
             end
         end
 
-        --dump(mycdata,"mycard=====================")
-        --dump(oppocard,"oppocard====================")
         for i=1,ShowHandDefine.GAME_PLAYER do
             if wMechairid == i-1 then
                 self.m_handCardData[i] = mycdata
@@ -898,6 +899,8 @@ function ShowHandScene:OnGameScenceMsg(evt)
                 self.m_handCardData[i] = oppocard
             end
         end
+        --dump(self.m_handCardData[1],"self.m_handCardData[1]=====================")
+        --dump(self.m_handCardData[2],"self.m_handCardData[2]====================")
 
         --print("statusPlay.bTableCardCount[1]"..statusPlay.bTableCardCount[1])
         self:StartDisPachCards(1,1,self.HandCardcount[1])

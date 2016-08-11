@@ -232,6 +232,7 @@ function Player:LeaveType()
         cc.Director:getInstance():popToRootScene() 
     end
 end
+
 --更新用户分数
 function Player:UserScoreUpdate(evt) 
     local userItem = evt.para.clientUserItem
@@ -244,6 +245,7 @@ function Player:UserScoreUpdate(evt)
         self["gold" .. ViewID]:setString( oxui.string(userItem.lScore))
     end
 end
+
 --更新用户状态
 function Player:UserStatusUpdate(evt)
     --print("更新用户状态")

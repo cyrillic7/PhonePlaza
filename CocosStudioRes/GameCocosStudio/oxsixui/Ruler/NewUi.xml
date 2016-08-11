@@ -9,7 +9,7 @@
     <GuidesList />
   </GuidesProject>
   <GuidesProject>
-    <Project>oxtwoLayer</Project>
+    <Project>oxsixLayer</Project>
     <GuidesList />
   </GuidesProject>
   <GuidesProject>
@@ -17,7 +17,7 @@
     <GuidesList />
   </GuidesProject>
   <GuidesProject>
-    <Project>oxsixLayer</Project>
+    <Project>oxtwoLayer</Project>
     <GuidesList />
   </GuidesProject>
 </ArrayOfGuidesProject>

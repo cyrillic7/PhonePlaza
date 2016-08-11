@@ -138,6 +138,17 @@ function OxtbNew:InitUnits()
     self.btnOpen=oxui.getNodeByName(self.openView,"btnOpen")
     self.btnTip=oxui.getNodeByName(self.openView,"btnTip")
     self.btnChat = oxui.getNodeByName(node,"btnChat")
+
+    --奖金池
+    self.handselabout_btn=oxui.getNodeByName(node,"handselabout_btn")
+    self.handselabout=oxui.getNodeByName(node,"handsel_about")
+    self.handselperson_btn=oxui.getNodeByName(node,"handselperson_btn")
+    self.handselperson=oxui.getNodeByName(node,"handselhead")
+    self.handselnum=oxui.getNodeByName(node,"handselnum")
+    self.handseltotal=oxui.getNodeByName(node,"totalweek")
+
+    self.handselpersonlist=oxui.getNodeByName(node,"handsel_person")
+
     --声明Player对象
     self.m_GameUser=GameUser.new(node,self.m_GameKernel)
     --加载牌的资源
@@ -420,7 +431,13 @@ function OxtbNew:ButtonMsg()
         
         local bCardValue,outCardData = GameLogic:GetCardType(cardData,OxtbNewDefine.MAXCOUNT) 
         if bCardValue > 0 then
-            self.handCardControl[OxtbNewDefine.MYSELF_VIEW_ID]:SetShootCard(outCardData,3)
+            --self.handCardControl[OxtbNewDefine.MYSELF_VIEW_ID]:SetShootCard(outCardData,3)
+            local wID = self:GetMeChairID()
+            if #outCardData == 5 then
+                self:onOxEnable(true,wID+1,outCardData)
+            else
+                self:onOxEnable(true,wID+1,cardData)
+            end 
         else
             self.openView:hide()
             self:SetAnimCard(OxtbNewDefine.MYSELF_VIEW_ID,0)
@@ -429,6 +446,39 @@ function OxtbNew:ButtonMsg()
             self:send(OxtbNewDefine.SUB_C_OPEN_CARD,CMD_C_OxCard ,"CMD_C_OxCard")
         end
     end) 
+
+    --奖金池
+    self.handselabout_btn:onButtonClicked(function ()
+        self.handselabout:show()
+        self:onTouchHideNode(self.handselabout)
+    end)
+
+    --奖金池按钮按下
+    self.handselabout_btn:onButtonPressed(function ()
+        self:playScaleAnimation(true,self.handselabout_btn)
+    end)
+
+    --奖金池按钮抬起
+    self.handselabout_btn:onButtonRelease(function ()
+        self:playScaleAnimation(false,self.handselabout_btn)
+    end)
+
+    --奖金池
+    self.handselperson_btn:onButtonClicked(function ()
+        self.handselperson:show()
+        self:onTouchHideNode(self.handselperson)
+        self.handselpersonlist:reload()
+    end)
+
+    --奖金池按钮按下
+    self.handselperson_btn:onButtonPressed(function ()
+        self:playScaleAnimation(true,self.handselperson_btn)
+    end)
+
+    --奖金池按钮抬起
+    self.handselperson_btn:onButtonRelease(function ()
+        self:playScaleAnimation(false,self.handselperson_btn)
+    end)
 end
 
 function OxtbNew:sendOpenMsg()
@@ -525,7 +575,7 @@ function OxtbNew:OnGameScenceMsg(evt)
     elseif gameStatus==OxtbNewDefine.GS_TK_SCORE then
 
         local statusInfo = self.ClientKernel:ParseStruct(unResolvedData.dataPtr,unResolvedData.size,"CMD_S_StatusScore")
-        dump(statusInfo)
+        --dump(statusInfo)
         print("下注-------000-----状态")
         local lTurnMaxScore = statusInfo.lTurnMaxScore
         local m_wBankerUser = statusInfo.wBankerUser  
@@ -640,9 +690,9 @@ function OxtbNew:OnSubPlayerOpen(evt)
         local wViewChairID=self.wViewChairID[i]
         if i~= self:GetMeChairID() then --self.cbPlayStatus[i]==OxtbNewDefine.USEX_PLAYING and 
             if self.cbHandCardData[i+1] and self.cbHandCardData[i+1][1] ~= 0 then
-                dump(wViewChairID)
-                dump(self.handCardControl[wViewChairID])
-                dump(self.cbHandCardData[i+1])
+                --dump(wViewChairID)
+                --dump(self.handCardControl[wViewChairID])
+                --dump(self.cbHandCardData[i+1])
                 self.handCardControl[wViewChairID]:SetCardData(self.cbHandCardData[i+1],OxtbNewDefine.MAXCOUNT)
                 local time = cc.DelayTime:create(t)
                 t = t  + 1
@@ -666,7 +716,7 @@ function OxtbNew:OnSubPlayerOpen(evt)
 
     local d = cc.DelayTime:create(t)
     local c = cc.CallFunc:create(function()
-        print("sendopenend")
+        --print("sendopenend")
         self:send(OxtbNewDefine.SUB_C_OPEN_END)
     end )
     self:runAction(cc.Sequence:create(d,c))
@@ -674,7 +724,7 @@ end
 --游戏结束
 function OxtbNew:OnSubGameOver(evt)
     local pGameEnd = evt.para
-    dump(pGameEnd)
+    --dump(pGameEnd)
     print("游戏结束")
     self.wWinUser = pGameEnd.wWinUser or 0  
     self:stopAllTimer()
@@ -688,7 +738,7 @@ function OxtbNew:OnSubGameOver(evt)
         if v then
             v:removeFromParent()
         end
-        dump(self.isTrust)
+        --dump(self.isTrust)
         if self.isTrust == false then
             self.gameState = OxtbNewDefine.GS_TK_FREE
             if not self.t_Start then
@@ -768,7 +818,7 @@ end
 function OxtbNew:OnSubGameStart(evt)
     print("游戏开始")
     local user = evt.para
-    dump(user)
+    --dump(user)
     self.lTurnMaxScore=user.lTurnMaxScore
     self.wBankerUser=user.wBankerUser
     self:sendAddSource()
@@ -820,9 +870,9 @@ end
 function OxtbNew:OnSubAddScore(evt)
     print("加注结果11111")
     local p = evt.para -- lAddScoreCount --加注数目
-    dump(p)
+    --dump(p)
     local ViewID=self.m_GameKernel:SwitchViewChairID(p.wAddScoreUser)
-    print("ViewID 。。 " .. ViewID)
+    --print("ViewID 。。 " .. ViewID)
     -- if ViewID == OxtbNewDefine.MYSELF_VIEW_ID and self:IsNotLookonMode() then
     --     --self.gameState = OxtbNewDefine.SUB_S_ADD_SCORE
     --     --self:stopAllTimer()
@@ -869,7 +919,7 @@ end
 function OxtbNew:OnSubCallBanker(evt)
     local p = evt.para
     local ViewID=self.m_GameKernel:SwitchViewChairID(p.wCallBanker)
-    dump(p)
+    --dump(p)
     print("叫庄")
     if p.bFirstTimes ==1 then
         local armature = oxui.playAnimation(self,nil,"AnimationBeginGame",0,false)
@@ -989,9 +1039,75 @@ function OxtbNew:OnSubEndOpen(evt)
     end
 end
 
+function OxtbNew:OnSubHandsel(evt)
+    local unResolvedData = evt.para.unResolvedData
+    local handsellist = self.ClientKernel:ParseStruct(unResolvedData.dataPtr,unResolvedData.size,"CMD_C_handselScore")
+    dump("ccy7777777777777777777",handsellist)
+    self.handselnum:setString(handsellist.lScore)
+end
+
+function OxtbNew:OnSubMyHandsel(evt)
+    local unResolvedData = evt.para.unResolvedData
+
+    local handsellist = self.ClientKernel:ParseStruct(unResolvedData.dataPtr,unResolvedData.size,"CMD_C_handselmyScore")
+    dump("ccy8888888888888888888",handsellist)
+    self.handseltotal:setString("本周个人累计:"..handsellist.lScore)
+end
+
+function OxtbNew:OnSubHandselList(evt)
+    local data = evt.para.unResolvedData
+    dump("ccy99999999999999999999",data)
+    
+    local handsellist = self.ClientKernel:ParseStructGroup(data,"CMD_C_Handsel")
+    for k,v in pairs(handsellist) do
+        print("k ==== "..k..v.szNick)
+        local  item = self.handselpersonlist:newItem()
+        local content
+
+        content = display.newNode()
+        for count=1,3 do
+            if count==1 then
+                cc.ui.UILabel.new(
+                    {text = v.szNick,
+                    size = 15,
+                    align = cc.ui.TEXT_ALIGN_CENTER,
+                    color = display.COLOR_WRITE,
+                    dimensions = cc.size(80, 17)})
+
+                :align(display.LEFT_TOP, (20*count - 100), 30)
+                :addTo(content)
+            elseif count==2 then
+                cc.ui.UILabel.new(
+                    {text = v.szType,
+                    size = 15,
+                    align = cc.ui.TEXT_ALIGN_CENTER,
+                    color = display.COLOR_WRITE})
+
+                :align(display.LEFT_TOP, (80*count - 120), 30)
+                :addTo(content)
+            else
+                cc.ui.UILabel.new(
+                    {text = (v.lSore),
+                    size = 15,
+                    align = cc.ui.TEXT_ALIGN_CENTER,
+                    color = display.COLOR_WRITE})
+                :align(display.LEFT_TOP, (80*count - 140), 30)
+                :addTo(content)
+            end
+        end
+
+        content:setContentSize(100, 30)
+        item:addContent(content)
+        item:setItemSize(100, 30)
+
+        self.handselpersonlist:addItem(item)        
+    end
+    self.handselpersonlist:reload()
+end
+
 function OxtbNew:SetAnimCard(wViewChairID,number)
    
-    print("wViewChairID= %d, number= %d",wViewChairID,number)
+    --print("wViewChairID= %d, number= %d",wViewChairID,number)
     
     if number == false then
         number = 0
@@ -1076,6 +1192,9 @@ function OxtbNew:RegistEventManager()
     eventListeners[OxtbNewDefine.GAME_OPEN] = handler(self, self.OnSubOpenCard)--开牌
     eventListeners[OxtbNewDefine.GAME_OPEN_CARD] = handler(self, self.OnSubEndOpen)
     eventListeners[OxtbNewDefine.GAME_PLAYER_OPEN] = handler(self, self.OnSubPlayerOpen)
+    eventListeners[OxtbNewDefine.GAME_HANDSEL] = handler(self, self.OnSubHandsel)
+    eventListeners[OxtbNewDefine.GAME_MY_HANDSEL] = handler(self, self.OnSubMyHandsel)
+    eventListeners[OxtbNewDefine.GAME_HANDSEL_LIST] = handler(self, self.OnSubHandselList)
 
     --eventListeners["GF_USER_CHAT"] = handler(self, self.ChatCallBack)
     eventListeners[OxtbNewDefine.GAME_OVER] = handler(self, self.OnSubGameOver) --结束
@@ -1121,7 +1240,7 @@ end
 
 function OxtbNew:fntCardData(para)
     local data = para
-    dump(data)
+    --dump(data)
     self.cbHandCardData = {}
     local ix = 1
     local  iy = 1
@@ -1139,7 +1258,7 @@ function OxtbNew:fntCardData(para)
             iy = iy + 1
         end
     end
-    dump(self.cbHandCardData)
+    --dump(self.cbHandCardData)
 end
 
 function OxtbNew:dealCardRes(data)
@@ -1246,7 +1365,7 @@ function OxtbNew:send(type,data,name)
 end
 
 function OxtbNew:setUserPlayingStatus(wChairID,statu)
-    print("wChairID" .. wChairID)
+    --print("wChairID" .. wChairID)
     if wChairID <= OxtbNewDefine.GAME_PLAYER then
         self.cbPlayStatus[wChairID]=statu
     else
@@ -1270,6 +1389,26 @@ function OxtbNew:onOxEnable(isShoot,wchairid,outCardData)
     if isShoot then
         myControl:SetShootOX()
     end 
+end
+
+function OxtbNew:onTouchHideNode(orgNode)
+    if orgNode then
+        local orgRect = orgNode:getBoundingBox()
+        local touchNode = display.newLayer()
+        :addTo(self,1000)
+        touchNode:setTouchSwallowEnabled(false)
+        touchNode:addNodeEventListener(cc.NODE_TOUCH_EVENT, function (event)
+            if event.name == "began" then
+                if not cc.rectContainsPoint( orgRect, orgNode:getParent():convertToNodeSpace(cc.p(event.x,event.y)) ) then
+                    orgNode:performWithDelay(function ()
+                        orgNode:hide()
+                        touchNode:removeFromParent()
+                    end, 0)
+                end
+            end
+            return true
+        end)
+    end
 end
 
 return OxtbNew

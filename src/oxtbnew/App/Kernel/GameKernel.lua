@@ -92,6 +92,24 @@ function GameclientKernel:registerPlayHandlers()
             subCmdID = OxtbNewDefine.SUB_S_USER_OPEN, 
                 responseHandler = handler(self, self.OnSocketSubPlayerOpen)
         },
+
+        {
+            mainCmdID=MDM_GF_GAME, 
+            subCmdID = OxtbNewDefine.SUB_S_HANDSEL, 
+                responseHandler = handler(self, self.OnSocketSubHandsel)
+        },
+
+        {
+            mainCmdID=MDM_GF_GAME, 
+            subCmdID = OxtbNewDefine.SUB_S_MY_HANDSEL, 
+                responseHandler = handler(self, self.OnSocketSubMyHandsel)
+        },
+
+        {
+            mainCmdID=MDM_GF_GAME, 
+            subCmdID = OxtbNewDefine.SUB_S_HANDSEL_LIST, 
+                responseHandler = handler(self, self.OnSocketSubHandselList)
+        },
 	} 
 	self:getClientKernel():addSocketResponseHandlersByTable(self.Handlers)
 end
@@ -232,6 +250,40 @@ function GameclientKernel:OnSocketSubGameOver(Params)
         print(k,v)
     end
 end 
+
+function GameclientKernel:OnSocketSubHandsel(Params)
+    self.App.EventCenter:dispatchEvent({
+            name = OxtbNewDefine.GAME_HANDSEL,
+            para = Params,
+        })
+
+    for k,v in pairs(Params) do
+        print(k,v)
+    end
+end
+
+function GameclientKernel:OnSocketSubMyHandsel(Params)
+    self.App.EventCenter:dispatchEvent({
+            name = OxtbNewDefine.GAME_MY_HANDSEL,
+            para = Params,
+        })
+
+    for k,v in pairs(Params) do
+        print(k,v)
+    end
+end
+
+function GameclientKernel:OnSocketSubHandselList(Params)
+    self.App.EventCenter:dispatchEvent({
+            name = OxtbNewDefine.GAME_HANDSEL_LIST,
+            para = Params,
+        })
+
+    for k,v in pairs(Params) do
+        print(k,v)
+    end
+end
+
 --释放注册的消息
 function GameclientKernel:OnFreeInterface()
 	self:getClientKernel():removeSocketResponseHandlersByTable(self.Handlers)

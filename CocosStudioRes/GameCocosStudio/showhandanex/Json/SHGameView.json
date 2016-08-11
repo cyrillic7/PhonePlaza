@@ -12,9 +12,7 @@
   "textures": [
     "UIShowHandanex.plist"
   ],
-  "texturesPng": [
-    "UIShowHandanex.png"
-  ],
+  "texturesPng": [],
   "version": "1.6.0.0",
   "widgetTree": {
     "classname": "Panel",
@@ -639,7 +637,7 @@
                       "ignoreSize": false,
                       "layoutParameter": null,
                       "opacity": 255,
-                      "positionPercentX": -0.251960784,
+                      "positionPercentX": -0.247058824,
                       "positionPercentY": 0.02631579,
                       "positionType": 0,
                       "rotation": 0,

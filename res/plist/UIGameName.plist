@@ -7,7 +7,7 @@
             <key>pic/plazacenter/GameName/u_t_10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{152,80},{144,39}}</string>
+                <string>{{152,41},{144,39}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -20,7 +20,7 @@
             <key>pic/plazacenter/GameName/u_t_120.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{298,80},{142,39}}</string>
+                <string>{{298,41},{142,39}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -33,7 +33,7 @@
             <key>pic/plazacenter/GameName/u_t_130.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,80},{148,39}}</string>
+                <string>{{2,41},{148,39}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,7 +46,7 @@
             <key>pic/plazacenter/GameName/u_t_160.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{872,81},{141,37}}</string>
+                <string>{{1738,41},{141,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -56,10 +56,49 @@
                 <key>sourceSize</key>
                 <string>{141,37}</string>
             </dict>
+            <key>pic/plazacenter/GameName/u_t_170.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{1020,42},{143,38}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{143,38}}</string>
+                <key>sourceSize</key>
+                <string>{143,38}</string>
+            </dict>
+            <key>pic/plazacenter/GameName/u_t_190.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{963,2},{143,38}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{143,38}}</string>
+                <key>sourceSize</key>
+                <string>{143,38}</string>
+            </dict>
+            <key>pic/plazacenter/GameName/u_t_20.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{875,42},{143,38}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{143,38}}</string>
+                <key>sourceSize</key>
+                <string>{143,38}</string>
+            </dict>
             <key>pic/plazacenter/GameName/u_t_210.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{497,2},{143,37}}</string>
+                <string>{{1396,2},{143,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +111,7 @@
             <key>pic/plazacenter/GameName/u_t_250.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{585,81},{141,38}}</string>
+                <string>{{1165,42},{141,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +124,7 @@
             <key>pic/plazacenter/GameName/u_t_260.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,41},{173,37}}</string>
+                <string>{{182,2},{173,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +137,7 @@
             <key>pic/plazacenter/GameName/u_t_290.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{182,2},{168,37}}</string>
+                <string>{{357,2},{168,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +150,7 @@
             <key>pic/plazacenter/GameName/u_t_30.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{466,41},{141,37}}</string>
+                <string>{{1595,41},{141,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -124,7 +163,7 @@
             <key>pic/plazacenter/GameName/u_t_300.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{787,2},{141,38}}</string>
+                <string>{{1108,2},{141,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -150,7 +189,7 @@
             <key>pic/plazacenter/GameName/u_t_420.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{728,81},{142,37}}</string>
+                <string>{{1308,41},{142,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -163,7 +202,7 @@
             <key>pic/plazacenter/GameName/u_t_430.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{753,42},{142,37}}</string>
+                <string>{{1685,2},{142,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -176,7 +215,7 @@
             <key>pic/plazacenter/GameName/u_t_450.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{323,41},{141,37}}</string>
+                <string>{{1452,41},{141,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -189,7 +228,7 @@
             <key>pic/plazacenter/GameName/u_t_460.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{352,2},{143,37}}</string>
+                <string>{{1251,2},{143,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -202,7 +241,7 @@
             <key>pic/plazacenter/GameName/u_t_470.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{177,41},{144,37}}</string>
+                <string>{{527,2},{144,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -215,7 +254,7 @@
             <key>pic/plazacenter/GameName/u_t_560.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{609,42},{142,37}}</string>
+                <string>{{1541,2},{142,37}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -228,7 +267,46 @@
             <key>pic/plazacenter/GameName/u_t_60.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{642,2},{143,38}}</string>
+                <string>{{818,2},{143,38}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{143,38}}</string>
+                <key>sourceSize</key>
+                <string>{143,38}</string>
+            </dict>
+            <key>pic/plazacenter/GameName/u_t_610.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{730,42},{143,38}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{143,38}}</string>
+                <key>sourceSize</key>
+                <string>{143,38}</string>
+            </dict>
+            <key>pic/plazacenter/GameName/u_t_620.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{585,42},{143,38}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{143,38}}</string>
+                <key>sourceSize</key>
+                <string>{143,38}</string>
+            </dict>
+            <key>pic/plazacenter/GameName/u_t_630.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{673,2},{143,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -241,7 +319,7 @@
             <key>pic/plazacenter/GameName/u_t_70.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{442,80},{141,39}}</string>
+                <string>{{442,41},{141,39}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -259,9 +337,9 @@
             <key>realTextureFileName</key>
             <string>UIGameName.png</string>
             <key>size</key>
-            <string>{1015,121}</string>
+            <string>{1881,82}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6e1d81c661f8a54b5b5ded68d0edece9:3052a0ce55dcc072a0baf63dabd868ff:97bd1575846e173daa178316ccafd4fc$</string>
+            <string>$TexturePacker:SmartUpdate:b8f93cb6fd2a20b1139fc9e354029f93:1fd56d5544e3de6ba542c5c168d952fe:97bd1575846e173daa178316ccafd4fc$</string>
             <key>textureFileName</key>
             <string>UIGameName.png</string>
         </dict>

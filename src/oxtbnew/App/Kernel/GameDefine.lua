@@ -68,6 +68,9 @@ OxtbNewDefine=
 --        SUB_S_CHANGE_CARD               =108,                                 --用户换牌
 --        SUB_S_CHANGE_OPEN               =109,                                 --开牌
         SUB_S_USER_OPEN                 =108,                                 --所有用户开完牌
+        SUB_S_HANDSEL                   =109,                                 --彩金池
+        SUB_S_MY_HANDSEL                =110,                                 --自己累计的彩金
+        SUB_S_HANDSEL_LIST              =111,                                 --10人彩金
 
         GAME_SCENCE                 = "OxbtNew_SCENEME",             -- 场景的消息
         GAME_START                  = "OxbtNew_STARTME",             -- 游戏开始
@@ -81,6 +84,9 @@ OxtbNewDefine=
         GAME_OPEN_CARD              = "OxbtNew_OPEN_CARD", --
         GAME_OVER 					= "OxbtNew_GAMEOVER",	 -- 结束
         GAME_PLAYER_OPEN                  = "OxbtNew_PLAYER_OPEN ",   --所有玩家卡牌数据
+        GAME_HANDSEL                    ="OxbtNew_HANDSEL", --彩金
+        GAME_MY_HANDSEL                 ="OxbtNew_MY_HANDSEL", --我的彩金
+        GAME_HANDSEL_LIST               ="OxbtNew_HANDSEL_LIST",
 
         TIME_INTERVAL       =1,                                  --时间间隔
         TIME_USER_CALL_BANKER       =10,                                  --叫庄定时器

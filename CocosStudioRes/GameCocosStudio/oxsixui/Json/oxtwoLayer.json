@@ -1938,7 +1938,7 @@
           "customProperty": "",
           "flipX": false,
           "flipY": false,
-          "height": 55,
+          "height": 51,
           "ignoreSize": true,
           "layoutParameter": {
             "classname": null,
@@ -1960,7 +1960,7 @@
           },
           "opacity": 255,
           "positionPercentX": 0.0576584525,
-          "positionPercentY": 0.94921875,
+          "positionPercentY": 0.952343762,
           "positionType": 0,
           "rotation": 0,
           "scaleX": 1,
@@ -1974,7 +1974,7 @@
           "visible": true,
           "width": 51,
           "x": 65,
-          "y": 607,
+          "y": 609,
           "capInsetsHeight": 1,
           "capInsetsWidth": 1,
           "capInsetsX": 0,
@@ -2001,7 +2001,7 @@
             "resourceType": 1
           },
           "scale9Enable": false,
-          "scale9Height": 55,
+          "scale9Height": 51,
           "scale9Width": 51,
           "text": "",
           "textColorB": 255,
@@ -2049,7 +2049,7 @@
               "touchAble": false,
               "useMergedTexture": false,
               "visible": true,
-              "width": 78,
+              "width": 76,
               "x": 0,
               "y": 0,
               "capInsetsHeight": 1,
@@ -2064,7 +2064,7 @@
               },
               "scale9Enable": false,
               "scale9Height": 35,
-              "scale9Width": 78
+              "scale9Width": 76
             }
           }
         ],

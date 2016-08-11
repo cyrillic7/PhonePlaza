@@ -184,15 +184,16 @@ function CardControl:OnChangeCard(oldCardData,newCardData)
         return false
     end
     local CardCount=table.getn(self.Carddata)
-    for i=1,CardCount do
-        if self.Carddata[i]==cbFirData then
-            self.Carddata[i]=cbSecData
+    --for i=1,CardCount do
+        --if self.Carddata[i]==cbFirData then
+            self.Carddata[1]=cbSecData
             print("cbSecData=================================" .. cbSecData)
+            --print("i==========="..i)
             local cardType, cardNumber = GameUtil:GetCardForPc(cbSecData)
-            self:modify(i,cardType, cardNumber)
-            break
-        end
-    end
+            self:modify(1,cardType, cardNumber)
+            --break
+        --end
+    --end
 end
 
 function CardControl:modify(index,cardType, cardNumber)
@@ -288,14 +289,14 @@ function CardControl:SetShowEx(index,isshow)
     if #self.PokerCards > 0 then 
         for i=index,CardCount do
             if isshow==true then
-                print("show----ccy")
+                --print("show----ccy")
                 --self.PokerCards[i]:modify(GameUtil:GetCardForPc(self.Carddata[i]))
                 self.PokerCards[i]:open()
             else
-                print("hide----ccy")
+                --print("hide----ccy")
                 self.PokerCards[i]:cover()
             end
-            print("CardControl .. isshow" .. i)
+            --print("CardControl .. isshow" .. i)
         end
     end
 end

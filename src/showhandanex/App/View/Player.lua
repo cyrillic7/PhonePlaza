@@ -48,6 +48,7 @@ function Player:ctor(Json,Kernel)
 
     --头像框-对家
     self.OppoPlayer=cc.uiloader:seekNodeByName(self.Node, "OppoPlayer")
+    self.OppoPlayer:hide()
 
     self.FaceFrame_Oth=cc.uiloader:seekNodeByName(self.OppoPlayer,"head_oppo_bk")
     --头像-对家
@@ -357,7 +358,7 @@ function Player:UserEnter(evt)
         end
     --对家
     else
-
+        self.OppoPlayer:show()
         --头像框-对家
         self.FaceFrame_Oth:show()
         --头像-对家
@@ -411,6 +412,7 @@ function Player:UserLeave(evt)
 
     --对家
     else
+        self.OppoPlayer:hide()
         --头像框-对家
         self.FaceFrame_Oth:hide()
         --头像-对家

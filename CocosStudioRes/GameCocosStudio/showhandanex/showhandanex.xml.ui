@@ -19,9 +19,7 @@
   <imageFileList>
     <string>UIShowHandanex.plist</string>
   </imageFileList>
-  <imagePngList>
-    <string>UIShowHandanex.png</string>
-  </imagePngList>
+  <imagePngList />
   <JsonSuffix>.json</JsonSuffix>
   <CurrentUIJson>SHGameView.json</CurrentUIJson>
 </UIProject>
